@@ -12,7 +12,10 @@ const config: Config = {
         "background" : '#F5F5F5',
         "text-black" : '#242424',
         "text-gray" : '#BCBCBC',
-        "white" : '#FFFFFF'
+        "white" : '#FFFFFF',
+        "info" : {
+          "red" : "#F12549"
+        }
       }
     },
   },
