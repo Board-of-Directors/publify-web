@@ -1,0 +1,12 @@
+.button {
+
+    -webkit-appearance: none;
+
+    @apply appearance-none w-full py-5 rounded-xl flex flex-row
+    justify-center items-center gap-3 bg-text-black;
+
+    .button:hover {
+        @apply outline-none bg-opacity-80;
+    }
+
+}
