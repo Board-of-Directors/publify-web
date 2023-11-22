@@ -3,7 +3,7 @@
 import React from 'react';
 import Button from "@/app/components/atoms/buttons/button/Button";
 import {useRouter} from "next/navigation";
-import LogoWithCaption from "@/app/components/svg/logo/LogoWithCaption";
+import LogoWithCaption from "@/app/components/svg/logo/with-caption/LogoWithCaption";
 import CardWrapper from "@/app/components/wrappers/card/card-wrapper/CardWrapper";
 
 const AuthorizationPage = () => {

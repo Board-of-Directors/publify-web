@@ -6,7 +6,8 @@ const TextButton = (props: ButtonProps) => {
 
     const classValues : ClassValue[] = [
         "p-0 text-info-blue-default border-none outline-none bg-opacity-0 rounded-none",
-        "hover:text-info-blue-hover"
+        "hover:text-info-blue-hover",
+        props.className
     ]
 
     return (

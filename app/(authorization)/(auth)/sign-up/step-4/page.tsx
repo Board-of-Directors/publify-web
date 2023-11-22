@@ -28,7 +28,7 @@ const TextCol = () => {
 const FourthStep = () => {
 
     const router : AppRouterInstance = useRouter()
-    const handleButtonClick = () => router.push('/home')
+    const handleButtonClick = () => router.push('/home/journals')
 
     return (
         <CardWrapper className={"w-[660px]"}>

@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import LogoWithCaption from "@/app/components/svg/logo/LogoWithCaption";
+import LogoWithCaption from "@/app/components/svg/logo/with-caption/LogoWithCaption";
 import {useRouter} from "next/navigation";
 import {FiArrowLeft} from "react-icons/fi";
 
