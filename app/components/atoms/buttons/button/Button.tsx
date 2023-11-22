@@ -1,25 +1,31 @@
 import React from 'react';
-import style from "./Button.module.css"
 import {cn} from "@/app/utils/cn";
-import Text from "@/app/components/atoms/text/Text";
+import {ClassValue} from "clsx";
 
-type ButtonProps = {
-    text : string
-    onClick? : () => void
-    type? : "button" | "submit"
-    icon? : React.ReactNode
-    className? : string
+export type ButtonProps = {
+    text: string
+    onClick?: () => void
+    type?: "button" | "submit"
+    icon?: React.ReactNode
+    className?: Iterable<ClassValue>
 }
 
-const Button = ({onClick, text, type = "button", icon, className} : ButtonProps) => {
+const Button = ({onClick, text, type = "button", icon, className}: ButtonProps) => {
+
+    const classValues: ClassValue[] = [
+        "appearance-none text-white font-semibold text-[15px] w-full py-5 rounded-xl flex flex-row",
+        "justify-center items-center gap-3 border-2 border-text-black bg-text-black",
+        "hover:outline-none hover:bg-white hover:transition hover:text-text-black",
+        className
+    ]
+
     return (
         <button
-            className={cn(style.button, className)}
+            className={cn(classValues)}
             type={type}
             onClick={onClick}
         >
-            {icon}
-            <Text text={text} className={"text-white leading-none"}/>
+            {icon}{text}
         </button>
     );
 };

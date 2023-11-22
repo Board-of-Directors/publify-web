@@ -1,12 +1,12 @@
-import {ChangeEvent, HTMLInputTypeAttribute} from "react";
+import {HTMLInputTypeAttribute} from "react";
 import Text from "@/app/components/atoms/text/Text";
 import {cn} from "@/app/utils/cn";
 import {ClassValue} from "clsx";
 import {FieldError, FieldErrorsImpl, Merge} from "react-hook-form";
 
-type TextInputProps = {
+export type TextInputProps = {
     register?: any | undefined
-    onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+    onChange?: (event: string) => void
     value?: string | undefined
     placeholder: string
     error?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined
@@ -21,7 +21,7 @@ const TextInput = (props: TextInputProps) => {
             "border-2 border-background": !props.error,
             "border-2 border-info-red": props.error,
             "hover:border-2 hover:border-text-black": !props.error,
-            "focus:border-background" : !props.error
+            "focus:border-background": !props.error
         }
     ]
 
@@ -29,10 +29,13 @@ const TextInput = (props: TextInputProps) => {
         <div className={"w-full flex flex-col gap-[10px]"}>
             <input
                 {...props.register}
-                className={cn("px-6 py-5 flex flex-row items-center rounded-xl bg-none", classValue)}
+                className={cn("px-6 py-5 flex flex-row text-[15px]" +
+                    " items-center rounded-xl bg-none", classValue)}
                 placeholder={props.placeholder}
                 value={props.value}
-                onChange={props.onChange}
+                onChange={(event) => {
+                    if (props.onChange) props.onChange(event.target.value)
+                }}
                 type={props.type}
             />
             {
