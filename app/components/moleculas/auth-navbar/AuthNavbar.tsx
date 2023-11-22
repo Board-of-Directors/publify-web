@@ -32,7 +32,7 @@ const AuthNavbar = () => {
     const router: AppRouterInstance = useRouter()
 
     const handleSignUp = () => router.push('/sign-up/step-1')
-    const handleLogIn = () => router.push('/log-in/step-1')
+    const handleLogIn = () => router.push('/log-in')
 
     return (
         <div className={"w-full flex flex-row items-center justify-center gap-[6px]"}>
