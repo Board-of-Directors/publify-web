@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import Button, {ButtonProps} from "@/app/components/atoms/buttons/button/Button";
 import {ClassValue} from "clsx";

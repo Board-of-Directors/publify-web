@@ -7,9 +7,7 @@ const ProfileLayout = ({children} : {
     return (
         <div className={"w-full h-full flex flex-col gap-[30px]"}>
             <HomeNavbar />
-            <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
-                {children}
-            </div>
+            {children}
         </div>
     );
 };

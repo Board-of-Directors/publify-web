@@ -5,6 +5,8 @@ import AuthForm from "@/app/components/wrappers/forms/auth-form/AuthForm";
 import EmailRoleInput from "@/app/components/organisms/email-role-input/EmailRoleInput";
 import {Employee} from "@/app/types/entities";
 import CardWrapper from "@/app/components/wrappers/card/card-wrapper/CardWrapper";
+import {FiPlus} from "react-icons/fi";
+import TextButton from "@/app/components/atoms/buttons/text-button/TextButton";
 
 const ThirdStepPage = () => {
 
@@ -16,7 +18,14 @@ const ThirdStepPage = () => {
         setEmployees
     ] = useState<Employee[]>(initialState)
 
-    const handleSubmit = (event : FormEvent<HTMLFormElement>) => {
+    const addNewEmployee = () => {
+        setEmployees([...employees, {
+            email: "",
+            role: "Copyrighter"
+        }])
+    }
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log(employees)
     }
@@ -31,6 +40,16 @@ const ThirdStepPage = () => {
                 <EmailRoleInput
                     employees={employees}
                     setEmployees={setEmployees}
+                />
+                <TextButton
+                    text={"Add member"}
+                    icon={
+                        <FiPlus
+                            size={"22px"}
+                            className={"stroke-info-blue"}
+                        />
+                    }
+                    onClick={addNewEmployee}
                 />
             </AuthForm>
         </CardWrapper>

@@ -1,3 +1,5 @@
+"use client"
+
 import React, {HTMLInputTypeAttribute} from "react";
 import Text from "@/app/components/atoms/text/Text";
 import {cn} from "@/app/utils/cn";
@@ -19,7 +21,7 @@ export type TextInputProps = {
 const TextInput = (props: TextInputProps) => {
 
     const classValues: ClassValue[] = [
-        "focus:outline-none",
+        "focus:outline-none font-semibold",
         props.className,
         "w-full px-6 py-5 flex flex-row text-[15px] items-center rounded-xl bg-none",
         {

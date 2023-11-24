@@ -80,7 +80,7 @@ const SelectInput = (props: SelectInputProps) => {
     ]
 
     return (
-        <div className={"w-full flex flex-col gap-[10px]"}>
+        <div className={cn("w-full flex flex-col gap-[10px]", props.className)}>
             <div className={cn(classValues)}>
                 <Text text={props.value}/>
                 <ChevronButton

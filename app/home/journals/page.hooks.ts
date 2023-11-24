@@ -13,7 +13,7 @@ export const useJournalsPage = () => {
             updateCount : 0,
             issuesCount : 12,
             workersCount : 6
-        }
+        },
     ]
 
     const handleAddJournal = () => {

@@ -4,19 +4,22 @@ import Button from "@/app/components/atoms/buttons/button/Button";
 import {useJournalsPage} from "@/app/home/journals/page.hooks";
 import {FiPlus, FiSearch} from "react-icons/fi";
 import TextInput from "@/app/components/atoms/inputs/TextInput";
-import {useState} from "react";
+import React, {useState} from "react";
 import GridBlock from "@/app/components/wrappers/blocks/grid-block/GridBlock";
 import JournalCard from "@/app/components/organisms/cards/journal-card/JournalCard";
+import {useRouter} from "next/navigation";
 
 const JournalsPage = () => {
 
+    const router = useRouter()
     const context = useJournalsPage()
     const [text, setText] = useState("")
 
     return (
-        <>
+        <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
             <section className={"w-full grid grid-cols-12 gap-[30px]"}>
                 <Button
+                    onClick={() => router.push("/home/journals/new-journal/step-1")}
                     className={"col-span-3"}
                     icon={<FiPlus size={"18px"}/>}
                     text={"Add journal"}
@@ -37,7 +40,7 @@ const JournalsPage = () => {
                         ))
                 }
             </GridBlock>
-        </>
+        </div>
     );
 };
 

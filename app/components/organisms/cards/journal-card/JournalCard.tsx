@@ -19,12 +19,12 @@ const CountCard = ({header, info}: {
     )
 }
 
-const JournalCard = ({journalCard}: { journalCard : JournalCardDTO }) => {
+const JournalCard = ({journalCard}: { journalCard: JournalCardDTO }) => {
 
     const descr = journalCard.updateCount === 0
         ? undefined : `${journalCard.updateCount} updates`
 
-    const classValues : ClassValue[] = [
+    const classValues: ClassValue[] = [
         "hover:cursor-pointer border-2 border-white col-span-6 p-10 gap-[30px]",
         "hover:border-2 hover:border-border-gray transition"
     ]
@@ -32,10 +32,16 @@ const JournalCard = ({journalCard}: { journalCard : JournalCardDTO }) => {
     return (
         <CardWrapper className={cn(classValues)}>
             <HeaderRow
-                className={"w-full"}
+                classNames={{wrapper: "w-full"}}
                 header={journalCard.header}
-                descr={descr}
-            />
+            >
+                {
+                    descr && <Text
+                        text={descr}
+                        className={"text-text-gray"}
+                    />
+                }
+            </HeaderRow>
             <div className={"w-full flex flex-row gap-[20px]"}>
                 <CountCard
                     header={"Issues"}
