@@ -37,11 +37,14 @@ const NavbarTabList = () => {
 const HomeNavbar = () => {
 
     const router: AppRouterInstance = useRouter()
+    const handleLogoClick = () => router.push("/home/journals")
 
     return (
         <div className={"sticky top-0 z-10 w-full bg-white px-[215px]"}>
             <div className={"flex flex-row items-center justify-between"}>
-                <Logo className={"h-[31px]"}/>
+                <div onClick={handleLogoClick} className={"hover:cursor-pointer"}>
+                    <Logo className={"h-[31px]"}/>
+                </div>
                 <NavbarTabList/>
                 <HomeNavbarTab
                     text={"Logout"}

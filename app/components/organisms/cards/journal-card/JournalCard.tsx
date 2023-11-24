@@ -1,10 +1,12 @@
-import React from 'react';
+"use client"
+
 import CardWrapper from "@/app/components/wrappers/card/card-wrapper/CardWrapper";
 import {JournalCardDTO} from "@/app/types/entities";
 import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
 import Text from "@/app/components/atoms/text/Text";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
+import {usePathname, useRouter} from "next/navigation";
 
 const CountCard = ({header, info}: {
     header: string,
@@ -21,6 +23,9 @@ const CountCard = ({header, info}: {
 
 const JournalCard = ({journalCard}: { journalCard: JournalCardDTO }) => {
 
+    const router = useRouter()
+    const pathName = usePathname()
+
     const descr = journalCard.updateCount === 0
         ? undefined : `${journalCard.updateCount} updates`
 
@@ -29,8 +34,10 @@ const JournalCard = ({journalCard}: { journalCard: JournalCardDTO }) => {
         "hover:border-2 hover:border-border-gray transition"
     ]
 
+    const handleCardClick = () => router.push(pathName.concat("/journal"))
+
     return (
-        <CardWrapper className={cn(classValues)}>
+        <CardWrapper onClick={handleCardClick} className={cn(classValues)}>
             <HeaderRow
                 classNames={{wrapper: "w-full"}}
                 header={journalCard.header}

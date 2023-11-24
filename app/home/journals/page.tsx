@@ -17,7 +17,8 @@ const JournalsPage = () => {
 
     return (
         <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
-            <section className={"w-full grid grid-cols-12 gap-[30px]"}>
+            <GridBlock>
+
                 <Button
                     onClick={() => router.push("/home/journals/new-journal/step-1")}
                     className={"col-span-3"}
@@ -31,8 +32,7 @@ const JournalsPage = () => {
                     onChange={setText}
                     value={text}
                 />
-            </section>
-            <GridBlock>
+
                 {
                     context.mockJournals.map(
                         (journalCard) => (

@@ -5,13 +5,14 @@ export type Employee = {
     role : Role
 }
 
-export enum JournalStatus {
-    READY, TEXT,
-    ILLUSTRATIONS, BOTH
+export enum IssueStatus {
+    READY= "Ready for publish",
+    TEXT = "Text",
+    ILLUSTRATIONS = "Illustrations",
+    BOTH = "Text & Illustrations"
 }
 
 export type JournalShortDTO = {
-    status: JournalStatus,
     header: string,
     date: string,
     articlesCount: number
