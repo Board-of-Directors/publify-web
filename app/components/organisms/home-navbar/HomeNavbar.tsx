@@ -12,11 +12,7 @@ const NavbarTabList = () => {
     const router = useRouter()
     const pathName = usePathname()
 
-    const handleTabClick = (route: string) => {
-        if (!pathName.includes(route)) {
-            router.push(`/home/${route}`)
-        }
-    }
+    const handleTabClick = (route: string) => router.push(`/home/${route}`)
 
     return (
         <div className={"flex flex-row gap-[30px]"}>
