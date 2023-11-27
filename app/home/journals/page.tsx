@@ -2,45 +2,56 @@
 
 import Button from "@/app/components/atoms/buttons/button/Button";
 import {useJournalsPage} from "@/app/home/journals/page.hooks";
-import {FiPlus, FiSearch} from "react-icons/fi";
+import {FiPlus, FiSearch, FiX} from "react-icons/fi";
 import TextInput from "@/app/components/atoms/inputs/TextInput";
 import React, {useState} from "react";
 import GridBlock from "@/app/components/wrappers/blocks/grid-block/GridBlock";
 import JournalCard from "@/app/components/organisms/cards/journal-card/JournalCard";
 import {useRouter} from "next/navigation";
+import PopupLayout from "@/app/components/wrappers/layout/popup-layout/PopupLayout";
+import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
+import DeletePopup from "@/app/components/organisms/popups/delete-popup/DeletePopup";
 
 const JournalsPage = () => {
+
+    const [deletePopupVisible, setDeleteVisible] = useState<boolean>(false)
 
     const router = useRouter()
     const context = useJournalsPage()
     const [text, setText] = useState("")
 
     return (
-        <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
-            <GridBlock>
+        <>
+            {deletePopupVisible && <DeletePopup onClose={() => setDeleteVisible(false)}/>}
+            <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
+                <GridBlock>
 
-                <Button
-                    onClick={() => router.push("/home/journals/new-journal/step-1")}
-                    className={"col-span-3"}
-                    icon={<FiPlus size={"18px"}/>}
-                    text={"Add journal"}
-                />
-                <TextInput
-                    wrapperClassName={"col-span-9"}
-                    placeholder={"Type name of the company"}
-                    icon={<FiSearch size={"18px"} className={"stroke-text-gray"}/>}
-                    onChange={setText}
-                    value={text}
-                />
+                    <Button
+                        onClick={() => router.push("/home/journals/new-journal/step-1")}
+                        className={"col-span-3"}
+                        icon={<FiPlus size={"18px"}/>}
+                        text={"Add journal"}
+                    />
+                    <TextInput
+                        wrapperClassName={"col-span-9"}
+                        placeholder={"Type name of the company"}
+                        icon={<FiSearch size={"18px"} className={"stroke-text-gray"}/>}
+                        onChange={setText}
+                        value={text}
+                    />
 
-                {
-                    context.mockJournals.map(
-                        (journalCard) => (
-                            <JournalCard journalCard={journalCard} />
-                        ))
-                }
-            </GridBlock>
-        </div>
+                    {
+                        context.mockJournals.map(
+                            (journalCard) => (
+                                <JournalCard
+                                    onDelete={() => setDeleteVisible(true)}
+                                    journalCard={journalCard}
+                                />
+                            ))
+                    }
+                </GridBlock>
+            </div>
+        </>
     );
 };
 

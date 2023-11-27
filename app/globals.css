@@ -5,3 +5,19 @@
 body {
     @apply w-full h-full bg-background;
 }
+
+.icon {
+    @apply stroke-text-gray hover:cursor-pointer transition;
+}
+
+.icon[type=blue] {
+    @apply hover:stroke-info-blue-default;
+}
+
+.icon[type=red] {
+    @apply hover:stroke-info-red;
+}
+
+.icon[type=black] {
+    @apply hover:stroke-text-black;
+}

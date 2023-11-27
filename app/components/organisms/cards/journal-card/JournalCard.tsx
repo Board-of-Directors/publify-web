@@ -7,6 +7,8 @@ import Text from "@/app/components/atoms/text/Text";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 import {usePathname, useRouter} from "next/navigation";
+import {FiSettings, FiTrash2} from "react-icons/fi";
+import {useState} from "react";
 
 const CountCard = ({header, info}: {
     header: string,
@@ -14,42 +16,53 @@ const CountCard = ({header, info}: {
 }) => {
     return (
         <div className={"w-full p-[20px] flex flex-row justify-between" +
-            " items-center rounded-xl bg-background"}>
-            <Text className={"text-text-gray"} text={header}/>
-            <Text className={"text-[18px] text-text-black"} text={info}/>
+            " items-center rounded-xl border-2 border-background hover:bg-background transition"}>
+            <Text className={"text-[16px] text-text-gray"} text={header}/>
+            <Text className={"text-[16px] text-text-black"} text={info}/>
         </div>
     )
 }
 
-const JournalCard = ({journalCard}: { journalCard: JournalCardDTO }) => {
+type JournalCardProps = {
+    journalCard : JournalCardDTO,
+    onDelete : () => void
+}
+
+const JournalCard = ({journalCard, onDelete}: JournalCardProps) => {
 
     const router = useRouter()
     const pathName = usePathname()
 
-    const descr = journalCard.updateCount === 0
-        ? undefined : `${journalCard.updateCount} updates`
-
     const classValues: ClassValue[] = [
-        "hover:cursor-pointer border-2 border-white col-span-6 p-10 gap-[30px]",
+        "hover:cursor-pointer border-2 !py-0 !gap-0 border-white col-span-6 p-5 gap-[30px]",
         "hover:border-2 hover:border-border-gray transition"
     ]
 
     const handleCardClick = () => router.push(pathName.concat("/journal"))
 
     return (
-        <CardWrapper onClick={handleCardClick} className={cn(classValues)}>
+        <CardWrapper className={cn(classValues)}>
             <HeaderRow
-                classNames={{wrapper: "w-full"}}
+                classNames={{
+                    wrapper: "w-full py-5 justify-between border-b-2 border-background pb-[15px]",
+                    header : "text-[20px]"
+            }}
                 header={journalCard.header}
             >
-                {
-                    descr && <Text
-                        text={descr}
-                        className={"text-text-gray"}
+                <div className={"flex flex-row gap-[15px] items-center"}>
+                    <FiSettings
+                        size={"20px"}
+                        className={"stroke-text-gray hover:cursor-pointer hover:stroke-info-blue-default"}
+                        onClick={() => console.log("Settings Clicked")}
                     />
-                }
+                    <FiTrash2
+                        size={"20px"}
+                        className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
+                        onClick={onDelete}
+                    />
+                </div>
             </HeaderRow>
-            <div className={"w-full flex flex-row gap-[20px]"}>
+            <div onClick={handleCardClick} className={"py-5 w-full flex flex-row gap-[20px]"}>
                 <CountCard
                     header={"Issues"}
                     info={journalCard.issuesCount + " issues"}
