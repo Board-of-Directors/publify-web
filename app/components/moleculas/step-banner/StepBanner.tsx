@@ -5,6 +5,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 import {usePathname, useRouter} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {BannerStep} from "@/app/types/entities";
 
 const BannerItem = ({step, message, isActive, onClick}: {
     step: number,
@@ -37,18 +38,9 @@ const BannerItem = ({step, message, isActive, onClick}: {
 
 }
 
-type BannerStep = {
-    message: string,
-    pathName: string
-}
-
-const stepData: BannerStep[] = [
-    {message: "Name", pathName: "step-1"},
-    {message: "Add members", pathName: "step-2"},
-    {message: "Finish", pathName: "step-3"},
-]
-
-const StepBanner = () => {
+const StepBanner = ({stepBanners} : {
+    stepBanners : BannerStep[]
+}) => {
 
     const currPathName = usePathname()
     const router: AppRouterInstance = useRouter()
@@ -62,9 +54,9 @@ const StepBanner = () => {
 
     return (
         <div className={"w-full bg-white py-[25px] border-t-2 border-background"}>
-            <div className={"w-full px-[215px] flex flex-row items-center gap-[20px]"}>
+            <div className={"w-full px-[215px] flex flex-row items-center justify-center gap-[20px]"}>
                 {
-                    stepData.map((step, index) => {
+                    stepBanners.map((step, index) => {
                         return <>
                             <BannerItem
                                 step={index + 1}
@@ -73,8 +65,8 @@ const StepBanner = () => {
                                 onClick={() => handlePathName(step.pathName)}
                             />
                             {
-                                index !== stepData.length - 1 &&
-                                <div className={"w-full h-[2px] bg-background"}/>
+                                index !== stepBanners.length - 1 &&
+                                <div className={"w-[200px] h-[2px] bg-background"}/>
                             }
                         </>
                     })

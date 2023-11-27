@@ -1,43 +1,49 @@
 "use client"
 
 import Button from "@/app/components/atoms/buttons/button/Button";
-import {FiPlus, FiSearch, FiSettings} from "react-icons/fi";
-import TextInput from "@/app/components/atoms/inputs/TextInput";
+import {FiPlus} from "react-icons/fi";
 import {usePathname, useRouter} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {useState} from "react";
-import IssueCard, {IssueDTO} from "@/app/components/organisms/issue-card/IssueCard";
-import {IssueStatus} from "@/app/types/entities";
+import {IssueShortDTO} from "@/app/types/entities";
 import GridBlock from "@/app/components/wrappers/blocks/grid-block/GridBlock";
-import HeaderBlock from "@/app/components/wrappers/blocks/header-block/HeaderBlock";
-import Text from "@/app/components/atoms/text/Text";
+import IssueImage from "@/public/images/issue-image.png"
+import IssueCardV2 from "@/app/components/organisms/issue-card-v2/IssueCardV2";
+import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
 
 const JournalPage = () => {
 
     const [text, setText] = useState<string>("")
+
     const router: AppRouterInstance = useRouter()
     const pathName: string = usePathname()
 
-    const mockIssuesList: IssueDTO[] = [
+    const mockIssuesList: IssueShortDTO[] = [
         {
             issueId: 0,
-            title: "The Battle for Picasso’s Multi-Billion-Dollar Empire",
-            date: "20.12.2023",
-            articlesCount: 5,
-            issueStatus: IssueStatus.READY
+            title: "Tyler, the Creator",
+            image: IssueImage.src,
+            issueNumber: 1,
+            date: "25.12.23"
         }, {
-            issueId: 1,
-            title: "Unpacking the Impact of a Brown Paper Bag",
-            date: "20.12.2023",
-            articlesCount: 2,
-            issueStatus: IssueStatus.BOTH
+            issueId: 0,
+            title: "Tyler, the Creator",
+            image: IssueImage.src,
+            issueNumber: 1,
+            date: "25.12.23"
         }, {
-            issueId: 2,
-            title: "Go With the Flow, Joe!",
-            date: "20.12.2023",
-            articlesCount: 3,
-            issueStatus: IssueStatus.TEXT
-        }
+            issueId: 0,
+            title: "Tyler, the Creator",
+            image: IssueImage.src,
+            issueNumber: 1,
+            date: "25.12.23"
+        }, {
+            issueId: 0,
+            title: "Tyler, the Creator",
+            image: IssueImage.src,
+            issueNumber: 1,
+            date: "25.12.23"
+        },
     ]
 
     const handleSettingsClick = () => router.push(pathName.concat("/settings"))
@@ -45,42 +51,24 @@ const JournalPage = () => {
     return (
         <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
             <GridBlock>
-                <Button
-                    onClick={() => router.push(pathName.concat("/new-issue"))}
-                    className={"col-span-3"}
-                    icon={<FiPlus size={"18px"}/>}
-                    text={"New issue"}
-                />
-                <div className={"col-span-9 flex flex-row items-center gap-[20px]"}>
-                    <TextInput
-                        wrapperClassName={"col-span-9"}
-                        placeholder={"Type title of the issue"}
-                        icon={<FiSearch size={"18px"} className={"stroke-text-gray"}/>}
-                        onChange={setText}
-                        value={text}
+                <HeaderRow
+                    header={"My journal"}
+                    descr={`${mockIssuesList.length} issues`}
+                    classNames={{wrapper : "justify-between"}}
+                >
+                    <Button
+                        onClick={() => router.push(pathName.concat("/new-issue/step-1"))}
+                        className={"w-[340px]"}
+                        icon={<FiPlus size={"18px"}/>}
+                        text={"Create new issue"}
                     />
-                    <FiSettings size={"22px"} className={"stroke-text-gray" +
-                        " hover:cursor-pointer hover:stroke-info-blue-default"}
-                                onClick={handleSettingsClick}
-                    />
-                </div>
-
-            </GridBlock>
-            <HeaderBlock
-                header={"MyJournal"}
-                content={
-                    <Text text={`${mockIssuesList.length} issues`}
-                          className={"text-text-gray text-[18px]"}/>
+                </HeaderRow>
+                {
+                    mockIssuesList.map((issue) => (
+                        <IssueCardV2 issue={issue}/>
+                    ))
                 }
-            >
-                <GridBlock>
-                    {
-                        mockIssuesList.map((issue) => (
-                            <IssueCard issue={issue}/>
-                        ))
-                    }
-                </GridBlock>
-            </HeaderBlock>
+            </GridBlock>
         </div>
     );
 };

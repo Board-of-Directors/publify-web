@@ -7,8 +7,10 @@ import {ClassValue} from "clsx";
 import {FieldError, FieldErrorsImpl, Merge} from "react-hook-form";
 
 export type TextInputProps = {
-    placeholder: string
+    placeholder: string,
+    label ?: string,
     className?: string,
+    labelClassName?: string,
     wrapperClassName?: string,
     icon?: React.ReactNode
     register?: any | undefined
@@ -34,6 +36,12 @@ const TextInput = (props: TextInputProps) => {
 
     return (
         <div className={cn("w-full flex flex-col gap-[10px]", props.wrapperClassName)}>
+            {
+                props.label && <Text
+                    text={props.label}
+                    className={props.labelClassName}
+                />
+            }
             <div className={"w-full relative"}>
                 <div className={"absolute top-1/3 right-[30px]"}>
                     {props.icon}

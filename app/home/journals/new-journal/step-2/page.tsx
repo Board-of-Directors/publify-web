@@ -9,6 +9,7 @@ import {cn} from "@/app/utils/cn";
 import EmailRoleInput from "@/app/components/organisms/email-role-input/EmailRoleInput";
 import React, {useState} from "react";
 import {Employee} from "@/app/types/entities";
+import HeaderBlock from "@/app/components/wrappers/blocks/header-block/HeaderBlock";
 
 const CreateJournalSecondStepPage = () => {
 
@@ -28,28 +29,33 @@ const CreateJournalSecondStepPage = () => {
     }
 
     const textButtonClassValues: ClassValue[] = [
-        "w-fit text-info-blue-default hover:text-info-blue-hover",
+        "w-[200px] max-text-w-fit bg-orange-500 text-info-blue-default hover:text-info-blue-hover",
         "hover:stroke-info-blue-hover"
     ]
 
     return (
-        <CreateJournalStepWrapper
-            pageTitle={"Add members"}
-            header={"Send invite link to members’ e-mail"}
-            headerContent={
-                <TextButton
-                    text={"Add member"}
-                    icon={<FiPlus size={"18px"}/>}
-                    className={cn(textButtonClassValues)}
-                    onClick={addNewEmployee}
+        <CreateJournalStepWrapper>
+            <HeaderBlock
+                classNames={{
+                    header: "text-[18px] leading-none",
+                    wrapper: "justify-between items-center"
+                }}
+                header={"Journal workers (optional)"}
+                content={
+                    <TextButton
+                        text={"Add member"}
+                        icon={<FiPlus size={"18px"}/>}
+                        className={cn(textButtonClassValues)}
+                        onClick={addNewEmployee}
+                    />
+                }
+            >
+                <EmailRoleInput
+                    classNames={{roleWrapper: "w-[200px]"}}
+                    employees={employees}
+                    setEmployees={setEmployees}
                 />
-            }
-        >
-            <EmailRoleInput
-                classNames={{roleWrapper: "w-[200px]"}}
-                employees={employees}
-                setEmployees={setEmployees}
-            />
+            </HeaderBlock>
         </CreateJournalStepWrapper>
     );
 };

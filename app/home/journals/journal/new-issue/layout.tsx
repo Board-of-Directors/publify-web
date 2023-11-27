@@ -1,14 +1,14 @@
 import React from 'react';
-import StepBanner from "@/app/components/moleculas/step-banner/StepBanner";
 import {BannerStep} from "@/app/types/entities";
+import StepBanner from "@/app/components/moleculas/step-banner/StepBanner";
 
-const CreateNewJournalLayout = ({children} : {
+const NewIssueLayout = ({children} : {
     children : React.ReactNode
 }) => {
 
     const stepBanners : BannerStep[] = [
         {message : "Name and decsription", pathName : "/step-1"},
-        {message : "Add members", pathName : "/step-2"},
+        {message : "Number, realase date and cover", pathName : "/step-2"},
     ]
 
     return (
@@ -21,4 +21,4 @@ const CreateNewJournalLayout = ({children} : {
     );
 };
 
-export default CreateNewJournalLayout;
+export default NewIssueLayout;

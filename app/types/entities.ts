@@ -12,10 +12,23 @@ export enum IssueStatus {
     BOTH = "Text & Illustrations"
 }
 
+export type IssueShortDTO = {
+    issueId : number,
+    title : string,
+    image : string,
+    issueNumber : number,
+    date : string
+}
+
 export type JournalShortDTO = {
     header: string,
     date: string,
     articlesCount: number
+}
+
+export type BannerStep = {
+    message: string,
+    pathName : string
 }
 
 export type JournalCardDTO = {
