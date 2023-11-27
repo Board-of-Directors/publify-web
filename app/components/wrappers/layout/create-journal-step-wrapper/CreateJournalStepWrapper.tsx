@@ -12,8 +12,9 @@ import Button from "@/app/components/atoms/buttons/button/Button";
 import HeaderBlock from "@/app/components/wrappers/blocks/header-block/HeaderBlock";
 import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
 
-const CreateJournalStepWrapper = ({children, buttonText = "Next step"} : {
+const CreateJournalStepWrapper = ({children, onClick, buttonText = "Next step"} : {
     buttonText? : string,
+    onClick ?: () => void,
     children : React.ReactNode
 }) => {
 
@@ -29,7 +30,7 @@ const CreateJournalStepWrapper = ({children, buttonText = "Next step"} : {
                     text={"Back"}
                 />
                 <Button
-                    onClick={context.handleClick}
+                    onClick={onClick ?? context.handleClick}
                     text={buttonText}
                 />
             </div>

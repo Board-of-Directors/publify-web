@@ -10,7 +10,7 @@ const AuthorizationPage = () => {
 
     const router = useRouter()
     const handleSignUp = () => router.push("/sign-up/step-1")
-    const handleLogIn = () => router.push("/log-in/step-1")
+    const handleLogIn = () => router.push("/log-in")
 
     return (
         <>

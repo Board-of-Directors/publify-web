@@ -4,10 +4,17 @@ import React from 'react';
 import TextInput from "@/app/components/atoms/inputs/TextInput";
 import CreateJournalStepWrapper
     from "@/app/components/wrappers/layout/create-journal-step-wrapper/CreateJournalStepWrapper";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {useRouter} from "next/navigation";
 
 const CreateIssueSecondStepPage = () => {
+
+    const router: AppRouterInstance = useRouter()
+
+    const handleButtonClick = () => router.push("/home/journals/journal")
+
     return (
-        <CreateJournalStepWrapper buttonText={"Create issue"}>
+        <CreateJournalStepWrapper onClick={handleButtonClick} buttonText={"Create issue"}>
             <TextInput
                 label={"Issue number (optional)"}
                 labelClassName={"text-[18px] text-text-black"}
