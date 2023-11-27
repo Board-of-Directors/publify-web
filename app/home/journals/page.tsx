@@ -2,14 +2,12 @@
 
 import Button from "@/app/components/atoms/buttons/button/Button";
 import {useJournalsPage} from "@/app/home/journals/page.hooks";
-import {FiPlus, FiSearch, FiX} from "react-icons/fi";
+import {FiPlus, FiSearch} from "react-icons/fi";
 import TextInput from "@/app/components/atoms/inputs/TextInput";
 import React, {useState} from "react";
 import GridBlock from "@/app/components/wrappers/blocks/grid-block/GridBlock";
 import JournalCard from "@/app/components/organisms/cards/journal-card/JournalCard";
 import {useRouter} from "next/navigation";
-import PopupLayout from "@/app/components/wrappers/layout/popup-layout/PopupLayout";
-import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
 import DeletePopup from "@/app/components/organisms/popups/delete-popup/DeletePopup";
 
 const JournalsPage = () => {

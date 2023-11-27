@@ -8,7 +8,6 @@ import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 import {usePathname, useRouter} from "next/navigation";
 import {FiSettings, FiTrash2} from "react-icons/fi";
-import {useState} from "react";
 
 const CountCard = ({header, info}: {
     header: string,
