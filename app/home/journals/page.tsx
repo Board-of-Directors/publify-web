@@ -12,18 +12,30 @@ import DeletePopup from "@/app/components/organisms/popups/delete-popup/DeletePo
 
 const JournalsPage = () => {
 
-    const [deletePopupVisible, setDeleteVisible] = useState<boolean>(false)
+    const [
+        journalIdToDelete,
+        setJournalIdToDelete
+    ] = useState<number | undefined>(undefined)
 
     const router = useRouter()
-    const context = useJournalsPage()
-    const [text, setText] = useState("")
+
+    const {
+        journals,
+        journalName,
+        setJournalName
+    } = useJournalsPage()
 
     return (
         <>
-            {deletePopupVisible && <DeletePopup onClose={() => setDeleteVisible(false)}/>}
+            {
+                journalIdToDelete &&
+                <DeletePopup
+                    journalId={journalIdToDelete}
+                    onClose={() => setJournalIdToDelete(undefined)}
+                />
+            }
             <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
                 <GridBlock>
-
                     <Button
                         onClick={() => router.push("/home/journals/new-journal/step-1")}
                         className={"col-span-3"}
@@ -34,15 +46,14 @@ const JournalsPage = () => {
                         wrapperClassName={"col-span-9"}
                         placeholder={"Type name of the company"}
                         icon={<FiSearch size={"18px"} className={"stroke-text-gray"}/>}
-                        onChange={setText}
-                        value={text}
+                        onChange={setJournalName}
+                        value={journalName}
                     />
-
                     {
-                        context.mockJournals.map(
+                        journals && journals.map(
                             (journalCard) => (
                                 <JournalCard
-                                    onDelete={() => setDeleteVisible(true)}
+                                    onDelete={() => setJournalIdToDelete(journalCard.id)}
                                     journalCard={journalCard}
                                 />
                             ))

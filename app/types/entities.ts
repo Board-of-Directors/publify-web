@@ -37,3 +37,26 @@ export type JournalCardDTO = {
     issuesCount : number,
     workersCount : number
 }
+
+export type Journal = {
+    title : string,
+    description : string,
+    organizationId : number,
+    employeeEmails : string[]
+}
+
+export type JournalCard = {
+    id : number,
+    name : string,
+    issueCount : number,
+    workerCount : number
+}
+
+export type InputData = {
+    name : string,
+    value : string
+}
+
+export type Exception = {
+    message : string
+}

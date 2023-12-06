@@ -1,27 +1,23 @@
-import {JournalCardDTO} from "@/app/types/entities";
+import {useEffect, useState} from "react";
+import {useStore} from "@/app/store/useStore";
+import {useShallow} from "zustand/react/shallow";
 
 export const useJournalsPage = () => {
 
-    const mockJournals : JournalCardDTO[] = [
-        {
-            header : "MyJournal",
-            updateCount : 2,
-            workersCount : 2,
-            issuesCount : 32
-        }, {
-            header : "AnotherJournal",
-            updateCount : 0,
-            issuesCount : 12,
-            workersCount : 6
-        },
-    ]
+    const [journals, searchJournals] = useStore(
+        useShallow(state => [
+            state.journals, state.searchJournals
+        ])
+    )
 
-    const handleAddJournal = () => {
-        console.log("Add journal")
-    }
+    const [journalName, setJournalName] = useState<string | undefined>(undefined)
 
-    return {
-        mockJournals
-    }
+    useEffect(() => {
+        searchJournals(journalName)
+        const interval = setInterval(searchJournals, 3000)
+        return () => clearInterval(interval)
+    }, [journalName])
+
+    return {journals, journalName, setJournalName}
 
 }

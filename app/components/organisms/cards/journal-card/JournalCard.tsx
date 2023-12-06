@@ -1,7 +1,7 @@
 "use client"
 
 import CardWrapper from "@/app/components/wrappers/card/card-wrapper/CardWrapper";
-import {JournalCardDTO} from "@/app/types/entities";
+import {JournalCard} from "@/app/types/entities";
 import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
 import Text from "@/app/components/atoms/text/Text";
 import {ClassValue} from "clsx";
@@ -23,8 +23,8 @@ const CountCard = ({header, info}: {
 }
 
 type JournalCardProps = {
-    journalCard : JournalCardDTO,
-    onDelete : () => void
+    journalCard : JournalCard,
+    onDelete : (id : number) => void
 }
 
 const JournalCard = ({journalCard, onDelete}: JournalCardProps) => {
@@ -32,12 +32,15 @@ const JournalCard = ({journalCard, onDelete}: JournalCardProps) => {
     const router = useRouter()
     const pathName = usePathname()
 
+    const journalQueryPath = `/journal?id=${journalCard.id}`
+
     const classValues: ClassValue[] = [
         "hover:cursor-pointer border-2 !py-0 !gap-0 border-white col-span-6 p-5 gap-[30px]",
         "hover:border-2 hover:border-border-gray transition"
     ]
 
     const handleCardClick = () => router.push(pathName.concat("/journal"))
+    const handleSettingsClick = () => router.push(pathName.concat(journalQueryPath).concat("/settings"))
 
     return (
         <CardWrapper className={cn(classValues)}>
@@ -46,29 +49,29 @@ const JournalCard = ({journalCard, onDelete}: JournalCardProps) => {
                     wrapper: "w-full py-5 justify-between border-b-2 border-background pb-[15px]",
                     header : "text-[20px]"
             }}
-                header={journalCard.header}
+                header={journalCard.name}
             >
                 <div className={"flex flex-row gap-[15px] items-center"}>
                     <FiSettings
                         size={"20px"}
                         className={"stroke-text-gray hover:cursor-pointer hover:stroke-info-blue-default"}
-                        onClick={() => console.log("Settings Clicked")}
+                        onClick={handleSettingsClick}
                     />
                     <FiTrash2
                         size={"20px"}
                         className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
-                        onClick={onDelete}
+                        onClick={() => onDelete(journalCard.id)}
                     />
                 </div>
             </HeaderRow>
             <div onClick={handleCardClick} className={"py-5 w-full flex flex-row gap-[20px]"}>
                 <CountCard
                     header={"Issues"}
-                    info={journalCard.issuesCount + " issues"}
+                    info={journalCard.issueCount + " issues"}
                 />
                 <CountCard
                     header={"Workers"}
-                    info={journalCard.workersCount + " workers"}
+                    info={journalCard.workerCount + " workers"}
                 />
             </div>
         </CardWrapper>

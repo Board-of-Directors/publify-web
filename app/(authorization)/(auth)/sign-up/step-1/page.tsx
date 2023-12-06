@@ -17,18 +17,18 @@ const FirstStepPage = () => {
         <CardWrapper className={"w-[430px]"}>
             <AuthForm onSubmit={handleSubmit}>
                 <TextInput
-                    register={register("firstName")}
-                    error={errors.firstName?.message}
+                    register={register("ownerFirstName")}
+                    error={errors.ownerFirstName?.message}
                     placeholder={"Enter your first name"}
                 />
                 <TextInput
-                    register={register("lastName")}
-                    error={errors.lastName?.message}
+                    register={register("ownerLastName")}
+                    error={errors.ownerLastName?.message}
                     placeholder={"Enter your last name"}
                 />
                 <TextInput
-                    register={register("email")}
-                    error={errors.email?.message}
+                    register={register("ownerEmail")}
+                    error={errors.ownerEmail?.message}
                     placeholder={"Enter your email"}
                 />
             </AuthForm>
