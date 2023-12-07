@@ -8,9 +8,9 @@ export type HeaderRowClassNames = {
     header?: string,
 }
 
-const HeaderRow = ({header, classNames, descr, children}: {
+const HeaderRow = ({header, classNames, leftContent, children}: {
     header: string,
-    descr?: string,
+    leftContent ?: React.ReactNode,
     children?: React.ReactNode,
     classNames?: HeaderRowClassNames,
 }) => {
@@ -22,7 +22,7 @@ const HeaderRow = ({header, classNames, descr, children}: {
         <div className={cn(wrapperClassValue, classNames?.wrapper)}>
             <div className={"w-full flex flex-row items-baseline gap-[20px]"}>
                 <Text text={header} className={cn(headerClassValue, classNames?.header)}/>
-                {descr && <Text text={descr} className={"text-text-gray text-[16px]"}/>}
+                {leftContent}
             </div>
             {children}
         </div>

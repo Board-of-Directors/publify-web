@@ -7,6 +7,7 @@ import IssueCardV2 from "@/app/components/organisms/issue-card-v2/IssueCardV2";
 import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
 import DeletePopup from "@/app/components/organisms/popups/delete-popup/DeletePopup";
 import {useJournalPage} from "@/app/home/journals/journal/[journalId]/page.hooks";
+import Text from "@/app/components/atoms/text/Text";
 
 const JournalPage = ({params}: {
     params: { journalId: string }
@@ -25,30 +26,35 @@ const JournalPage = ({params}: {
                     onClose={handleClosePopup}
                 />
             }
-                <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
-                    <GridBlock>
-                        <HeaderRow
-                            header={journal && journal.name}
-                            descr={`${journal.issueCount} issues`}
-                            classNames={{wrapper: "justify-between"}}
-                        >
-                            <Button
-                                onClick={handleCreateIssue}
-                                className={"w-[340px]"}
-                                icon={<FiPlus size={"18px"}/>}
-                                text={"Create new issue"}
+            <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
+                <GridBlock>
+                    <HeaderRow
+                        header={journal && journal.name}
+                        classNames={{wrapper: "justify-between"}}
+                        leftContent={
+                            <Text
+                                text={`${journal.issueCount} issues`}
+                                className={"hint"}
                             />
-                        </HeaderRow>
-                        {
-                            issues.map((issue) => (
-                                <IssueCardV2
-                                    issue={issue}
-                                    onDelete={handleDeleteIssue}
-                                />
-                            ))
                         }
-                    </GridBlock>
-                </div>
+                    >
+                        <Button
+                            onClick={handleCreateIssue}
+                            className={"w-[340px]"}
+                            icon={<FiPlus size={"18px"}/>}
+                            text={"Create new issue"}
+                        />
+                    </HeaderRow>
+                    {
+                        issues.map((issue) => (
+                            <IssueCardV2
+                                issue={issue}
+                                onDelete={handleDeleteIssue}
+                            />
+                        ))
+                    }
+                </GridBlock>
+            </div>
         </>
     );
 };

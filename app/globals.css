@@ -21,3 +21,7 @@ body {
 .icon[type=black] {
     @apply hover:stroke-text-black;
 }
+
+.hint {
+    @apply text-[16px] text-text-gray;
+}

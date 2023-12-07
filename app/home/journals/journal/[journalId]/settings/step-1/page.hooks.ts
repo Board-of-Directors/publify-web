@@ -7,6 +7,15 @@ import {createJournalSchema} from "@/app/schemas/createJournalSchema";
 
 export const useEditJournalFirstStep = (journalId: number) => {
 
+    const [requestJournal, editJournal, getJournal, fillPartialData] = useStore(
+        useShallow(state => [state.requestJournal,
+            state.editJournal, state.getJournal, state.fillPartialData])
+    )
+
+    useEffect(() => {
+        getJournal(journalId)
+    }, [])
+
     const {
         register,
         handleSubmit,
@@ -15,23 +24,15 @@ export const useEditJournalFirstStep = (journalId: number) => {
         resolver : zodResolver(createJournalSchema)
     })
 
-    const [journal, editJournal, getJournal, fillData] = useStore(
-        useShallow(state => [state.journal,
-            state.editJournal, state.getJournal, state.fillData])
-    )
-
-    useEffect(() => {
-        getJournal(journalId)
-    }, [])
-
     const onSubmit = (data : FieldValues) => {
-        fillData(data as any)
+        fillPartialData(data as any)
+        console.log(requestJournal)
         editJournal(journalId)
     }
 
     return {
         handleSubmit : handleSubmit(onSubmit),
-        register, errors, journal
+        register, errors, journal : requestJournal
     }
 
 }

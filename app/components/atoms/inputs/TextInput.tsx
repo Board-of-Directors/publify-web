@@ -8,6 +8,7 @@ import {FieldError, FieldErrorsImpl, Merge} from "react-hook-form";
 
 export type TextInputProps = {
     placeholder: string,
+    defaultValue ?: string,
     label ?: string,
     className?: string,
     labelClassName?: string,
@@ -48,6 +49,7 @@ const TextInput = (props: TextInputProps) => {
                 </div>
                 <input
                     {...props.register}
+                    defaultValue={props.defaultValue}
                     className={cn(classValues)}
                     placeholder={props.placeholder}
                     value={props.value}

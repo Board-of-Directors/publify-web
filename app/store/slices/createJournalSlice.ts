@@ -3,7 +3,7 @@ import {StateCreator} from "zustand";
 import api from "@/app/api/api";
 
 export type FirstStepData = {
-    title: string,
+    name: string,
     description: string
 }
 
@@ -20,7 +20,7 @@ export type CreateJournalSlice = {
 export const createJournalSlice: StateCreator<CreateJournalSlice, [], [], CreateJournalSlice> = (set, get) => ({
 
     journal: {
-        title: "",
+        name: "",
         description: "",
         organizationId: 0,
         employeeEmails: []

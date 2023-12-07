@@ -14,7 +14,7 @@ const EditJournalFirstStep = ({params} : {
     const {
         handleSubmit,
         register,
-        errors, journal
+        errors, journal,
     } = useEditJournalFirstStep(params.journalId)
 
     return (
@@ -24,14 +24,16 @@ const EditJournalFirstStep = ({params} : {
         >
             <TextInput
                 label={"Journal name"}
-                register={register("title")}
-                error={errors.title?.message}
+                register={register("name")}
+                defaultValue={journal.name}
+                error={errors.name?.message}
                 labelClassName={"text-[18px] text-text-black"}
                 placeholder={journal.name}
             />
             <TextInput
                 label={"Journal description"}
                 register={register("description")}
+                defaultValue={journal.description}
                 error={errors.description?.message}
                 labelClassName={"text-[18px] text-text-black"}
                 placeholder={journal.description}
