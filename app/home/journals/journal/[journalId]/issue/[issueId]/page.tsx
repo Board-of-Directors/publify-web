@@ -57,7 +57,15 @@ const TableRow = ({items, onDelete}: {
     )
 }
 
-const IssuePage = () => {
+const IssuePage = ({params} : {
+    params : {
+        journalId : string,
+        issueId : string
+    }
+}) => {
+
+    console.log("JOURNAL_ID", params.journalId)
+    console.log("ISSUE_ID", params.issueId)
 
     const router: AppRouterInstance = useRouter()
     const pathName: string = usePathname()

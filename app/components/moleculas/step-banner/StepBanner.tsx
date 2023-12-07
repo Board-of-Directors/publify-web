@@ -49,7 +49,7 @@ const StepBanner = ({stepBanners} : {
         const currPathIndex = currPathName.at(-1) as string
         const nextPathIndex = pathName.at(-1) as string
         const nextPathName = currPathName.replace(currPathIndex, nextPathIndex)
-        if (+nextPathIndex < +currPathIndex) router.push(nextPathName)
+        router.push(nextPathName)
     }
 
     return (

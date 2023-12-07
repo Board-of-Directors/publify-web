@@ -24,7 +24,7 @@ const CountCard = ({header, info}: {
 
 type JournalCardProps = {
     journalCard : JournalCard,
-    onDelete : (id : number) => void
+    onDelete : (id : number) => void,
 }
 
 const JournalCard = ({journalCard, onDelete}: JournalCardProps) => {
@@ -32,15 +32,18 @@ const JournalCard = ({journalCard, onDelete}: JournalCardProps) => {
     const router = useRouter()
     const pathName = usePathname()
 
-    const journalQueryPath = `/journal?id=${journalCard.id}`
+    // paths
+    const journalSlugPath = `/journal/${journalCard.id}`
+    const journalCardPath = pathName.concat(journalSlugPath)
+    const journalSettingsPath = pathName.concat(journalSlugPath).concat("/settings/step-1")
 
     const classValues: ClassValue[] = [
         "hover:cursor-pointer border-2 !py-0 !gap-0 border-white col-span-6 p-5 gap-[30px]",
         "hover:border-2 hover:border-border-gray transition"
     ]
 
-    const handleCardClick = () => router.push(pathName.concat("/journal"))
-    const handleSettingsClick = () => router.push(pathName.concat(journalQueryPath).concat("/settings"))
+    const handleCardClick = () => router.push(journalCardPath)
+    const handleSettingsClick = () => router.push(journalSettingsPath)
 
     return (
         <CardWrapper className={cn(classValues)}>

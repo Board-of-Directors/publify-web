@@ -1,6 +1,5 @@
-
 export type TextProps = {
-    text : string,
+    text ?: string,
     className? : string,
     onClick? : () => void
 }

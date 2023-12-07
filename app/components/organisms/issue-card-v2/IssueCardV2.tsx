@@ -1,17 +1,17 @@
 import React from 'react';
-import {IssueShortDTO} from "@/app/types/entities";
 import CardWrapper from "@/app/components/wrappers/card/card-wrapper/CardWrapper";
 import {cn} from "@/app/utils/cn";
 import {ClassValue} from "clsx";
 import Text from "@/app/components/atoms/text/Text";
 import Image from "next/image";
 import {FiSettings, FiTrash2} from "react-icons/fi";
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {Issue} from "@/app/types/issue";
 
 type IssueCardV2Props = {
-    issue: IssueShortDTO,
-    onDelete : () => void,
+    issue: Issue,
+    onDelete : (issueId : number) => void,
     className?: string
 }
 
@@ -19,8 +19,13 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
 
     const router: AppRouterInstance = useRouter()
     const pathName : string = usePathname()
+    const searchParams = useSearchParams()
 
-    const handleButtonClick = () => router.push(pathName.concat("/issue"))
+    const issueQueryPath = pathName
+        .concat(`?journalId=${searchParams.get("journalId")}`)
+        .concat(`/issue?issueId=${issue.id}`)
+
+    const handleButtonClick = () => router.push(pathName.concat(issueQueryPath))
 
     const classValues: ClassValue[] = [
         "col-span-3 p-5", className
@@ -35,7 +40,7 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
             <Image
                 onClick={handleButtonClick}
                 className={"hover:cursor-pointer w-full h-[300px] object-fill"}
-                src={issue.image}
+                src={`data:image/jpeg;base64,${issue.cover}`}
                 width={100}
                 height={100}
                 alt={'/'}
@@ -43,11 +48,11 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
             />
             <div className={"flex flex-row items-center justify-between"}>
                 <Text
-                    text={`#${issue.issueNumber}`}
+                    text={`#${issue.number}`}
                     className={"text-[18px] text-text-black"}
                 />
                 <Text
-                    text={issue.date}
+                    text={issue.releaseDate}
                     className={"text-[18px] text-text-black"}
                 />
                 <div className={"flex flex-row gap-[15px] items-center"}>
@@ -59,7 +64,7 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
                     <FiTrash2
                         size={"20px"}
                         className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
-                        onClick={onDelete}
+                        onClick={() => onDelete(issue.id)}
                     />
                 </div>
             </div>

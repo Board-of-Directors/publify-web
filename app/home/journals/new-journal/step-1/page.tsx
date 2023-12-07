@@ -16,8 +16,8 @@ const CreateJournalFirstStepPage = () => {
         <CreateJournalStepWrapper onSubmit={handleSubmit}>
             <TextInput
                 label={"Journal name"}
-                register={register("title")}
-                error={errors.title?.message}
+                register={register("name")}
+                error={errors.name?.message}
                 labelClassName={"text-[18px] text-text-black"}
                 placeholder={"Type here name of your organization"}
             />

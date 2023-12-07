@@ -2,12 +2,12 @@ import {Exception, Journal} from "@/app/types/entities";
 import {StateCreator} from "zustand";
 import api from "@/app/api/api";
 
-type FirstStepData = {
+export type FirstStepData = {
     title: string,
     description: string
 }
 
-type SecondStepData = {
+export type SecondStepData = {
     employeeEmails: string[]
 }
 
@@ -45,6 +45,6 @@ export const createJournalSlice: StateCreator<CreateJournalSlice, [], [], Create
             ...state.journal,
             ...data
         }
-    }))
+    })),
 
 })

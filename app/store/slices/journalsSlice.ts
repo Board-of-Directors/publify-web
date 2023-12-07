@@ -1,29 +1,30 @@
 import {StateCreator} from "zustand";
 import api from "@/app/api/api";
 import {Exception, Journal, JournalCard} from "@/app/types/entities";
+import {CreateJournalSlice} from "@/app/store/slices/createJournalSlice";
 
 export type JournalsSlice = {
 
-    journal: JournalCard | undefined,
     journals: JournalCard[],
 
     searchJournals: (journalName ?: string) => void,
     getJournal: (journalId: number) => Promise<Exception | void>,
     createJournal: (journal: Journal) => Promise<number | void>,
-    deleteJournal : (journalId : number) => Promise<Exception | void>
+    deleteJournal : (journalId : number) => Promise<Exception | void>,
+    editJournal : (journalId : number) => Promise<Exception | void>
+
 }
 
-export const journalsSlice: StateCreator<JournalsSlice, [], [], JournalsSlice> = (set) => ({
+export const journalsSlice: StateCreator<JournalsSlice & CreateJournalSlice, [], [], JournalsSlice>
+    = (set, get) => ({
 
-    journal: undefined,
     journals: [],
 
     getJournal: async (id: number) => {
         return api.get('/journal', {params: {id: id}})
             .then((response) => {
-                if (response.data.exception == null) {
-                    set({journal: response.data.result})
-                } else return response.data.exception as Exception
+                set({journal: response.data.result})
+                return response.data.exception as Exception
             })
     },
 
@@ -52,6 +53,14 @@ export const journalsSlice: StateCreator<JournalsSlice, [], [], JournalsSlice> =
     deleteJournal : async (journalId : number) => {
         return api.delete('/journal', {params : {journalId : journalId}})
             .then((response) => response.data.exception as Exception)
+    },
+
+    editJournal : async (journalId : number) => {
+        return api.put('/journal', get().journal, {params : {id : journalId}})
+            .then((response) => {
+                return response.data.exception as Exception
+            })
+
     }
 
 })

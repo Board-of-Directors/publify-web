@@ -20,26 +20,13 @@ export type IssueShortDTO = {
     date : string
 }
 
-export type JournalShortDTO = {
-    header: string,
-    date: string,
-    articlesCount: number
-}
-
 export type BannerStep = {
     message: string,
     pathName : string
 }
 
-export type JournalCardDTO = {
-    header : string,
-    updateCount : number,
-    issuesCount : number,
-    workersCount : number
-}
-
 export type Journal = {
-    title : string,
+    name : string,
     description : string,
     organizationId : number,
     employeeEmails : string[]
