@@ -16,9 +16,7 @@ const GridBlock = ({children, className} : WrapperProps) => {
 
     return (
         <div className={cn(classValues)}>
-            {
-                children
-            }
+            {children}
         </div>
     );
 

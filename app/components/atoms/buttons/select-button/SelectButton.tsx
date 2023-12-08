@@ -6,7 +6,8 @@ import Text from "@/app/components/atoms/text/Text";
 import React from "react";
 
 export type SelectItem = {
-    name: string
+    name: string,
+    action : () => void
 }
 
 type SelectButtonClassNames = {
@@ -43,7 +44,10 @@ const SelectButton = ({items, classNames, selectedItem, onSelect}: {
                             item.name === selectedItem.name,
                     }
                     return <div
-                        onClick={() => onSelect(item)}
+                        onClick={() => {
+                            onSelect(item)
+                            item.action()
+                        }}
                         className={cn(defaultItemCV, curItemCV)}
                     >
                         <Text text={item.name}/>

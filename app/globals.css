@@ -25,3 +25,11 @@ body {
 .hint {
     @apply text-[16px] text-text-gray;
 }
+
+h2 {
+    @apply text-[24px] text-text-black;
+}
+
+h3 {
+    @apply text-[20px] text-text-black;
+}
