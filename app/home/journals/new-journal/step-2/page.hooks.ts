@@ -10,9 +10,9 @@ export const useCreateJournalSecondStep = () => {
 
     const router: AppRouterInstance = useRouter()
 
-    const [fillData, createJournal] = useStore(
+    const [fillJournalData, createJournal] = useStore(
         useShallow(state => [
-                state.fillData, state.createJournal
+                state.fillJournalData, state.createJournal
             ]))
 
     const [getEmployees, employees] = useStore(
@@ -35,7 +35,7 @@ export const useCreateJournalSecondStep = () => {
     })
 
     const onSubmit = (data: FieldValues) => {
-        fillData({employeeEmails: Object.values(data)})
+        fillJournalData({employeeEmails: Object.values(data)})
         createJournal().then((exception) => {
             if (exception === null) router.push("/home/journals")
         })

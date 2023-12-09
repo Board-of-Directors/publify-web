@@ -13,6 +13,8 @@ import {AnyExtension, EditorContent, useEditor} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import {Underline} from "@tiptap/extension-underline";
 import {Highlight} from "@tiptap/extension-highlight";
+import {useDroppable} from "@dnd-kit/core";
+import {BubbleMenu} from "@tiptap/extension-bubble-menu";
 
 const ButtonRow = () => {
 
@@ -51,7 +53,10 @@ const ArticleBlock = ({id}: {
         setActivatorNodeRef,
         transform,
         transition,
+        ...draggable
     } = useSortable({id: id});
+
+    const droppable = useDroppable({id : id})
 
     const style = {
         transition,
@@ -63,8 +68,15 @@ const ArticleBlock = ({id}: {
         "focus:outline-none text-[15px]"
     ]
 
+    const droppableCV : ClassValue[] = [
+        "absolute z-0 top-[87px] left-[1px] h-[300px] w-[807px] rounded-xl border-2",
+        "border-info-blue-default border-dashed bg-info-blue-default bg-opacity-10",
+        {"bg-transparent border-none" : draggable.isDragging}
+    ]
+
+
     const extensions: AnyExtension[] = [
-        StarterKit, Underline, Highlight
+        StarterKit, Underline, Highlight, BubbleMenu
     ]
 
     const content = '<p>Enter text content...</p>'
@@ -80,12 +92,12 @@ const ArticleBlock = ({id}: {
     })
 
     return (
-        <div className={"h-fit col-span-full flex flex-col gap-[20px]"}>
+        <div className={"relative h-fit col-span-full flex flex-col gap-[20px]"}>
             <ButtonRow/>
             <CardWrapper
                 ref={setNodeRef}
                 style={style}
-                className={"col-span-full h-fit flex flex-col gap-[20px]"}
+                className={"z-10 col-span-full h-fit flex flex-col gap-[20px]"}
             >
                 <ArticleBlockEditRow
                     editor={editor}
@@ -95,6 +107,10 @@ const ArticleBlock = ({id}: {
                 />
                 <EditorContent editor={editor}/>
             </CardWrapper>
+            <div
+                ref={droppable.setNodeRef}
+                className={cn(droppableCV)}
+            />
         </div>
     )
 };

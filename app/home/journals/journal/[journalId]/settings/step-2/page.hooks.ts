@@ -6,18 +6,16 @@ import {useEffect, useState} from "react";
 import {useShallow} from "zustand/react/shallow";
 import {InputData} from "@/app/types/entities";
 
-export const useEditJournalSecondStep = (journalId : number) => {
+export const useEditJournalSecondStep = (journalId: number) => {
 
     const {
         handleSubmit,
         control
-    } = useForm({
-        resolver : zodResolver(createJournalSchema)
-    })
+    } = useForm()
 
-    const [journal, editJournal, getJournal, fillData] = useStore(
+    const [journal, editJournal, getJournal, fillPartialData] = useStore(
         useShallow(state => [state.journal,
-            state.editJournal, state.getJournal, state.fillData])
+            state.editJournal, state.getJournal, state.fillPartialData])
     )
 
     const [organizationEmployees, getEmployees] = useStore(
@@ -54,13 +52,14 @@ export const useEditJournalSecondStep = (journalId : number) => {
         setInputData(newValues)
     }
 
-    const onSubmit = (data : FieldValues) => {
-        fillData(data as any)
+    const onSubmit = (data: FieldValues) => {
+        console.log(data)
+        fillPartialData({employeeEmails: Object.values(data)} as any)
         editJournal(journalId)
     }
 
     return {
-        handleSubmit : handleSubmit(onSubmit),
+        handleSubmit: handleSubmit(onSubmit),
         control, journal, handleInputChange,
         handleAddEmail, options, inputData
     }

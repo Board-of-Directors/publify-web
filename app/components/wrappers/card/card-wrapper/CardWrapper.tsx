@@ -2,7 +2,7 @@ import React, {LegacyRef} from 'react';
 import {cn} from "@/app/utils/cn";
 
 type CardWrapperProps = {
-    style: {
+    style?: {
         transition: string | undefined,
         transform: string | undefined
     },

@@ -36,7 +36,7 @@ const HomeNavbar = () => {
     const handleLogoClick = () => router.push("/home/journals")
 
     return (
-        <div className={"sticky top-0 z-10 w-full bg-white px-[215px]"}>
+        <div className={"sticky top-0 z-20 w-full bg-white px-[215px]"}>
             <div className={"flex flex-row items-center justify-between"}>
                 <div onClick={handleLogoClick} className={"hover:cursor-pointer"}>
                     <Logo className={"h-[31px]"}/>

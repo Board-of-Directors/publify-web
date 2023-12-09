@@ -14,7 +14,7 @@ export type SecondStepData = {
 export type CreateJournalSlice = {
     journal: Journal,
     createJournal: () => Promise<Exception | void>,
-    fillData: (data: FirstStepData | SecondStepData) => void,
+    fillJournalData: (data: FirstStepData | SecondStepData) => void,
 }
 
 export const createJournalSlice: StateCreator<CreateJournalSlice, [], [], CreateJournalSlice> = (set, get) => ({
@@ -40,7 +40,7 @@ export const createJournalSlice: StateCreator<CreateJournalSlice, [], [], Create
 
     },
 
-    fillData: (data: FirstStepData | SecondStepData) => set((state) => ({
+    fillJournalData: (data: FirstStepData | SecondStepData) => set((state) => ({
         journal: {
             ...state.journal,
             ...data

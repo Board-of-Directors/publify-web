@@ -25,7 +25,7 @@ const BannerItem = ({step, message, isActive, onClick}: {
 
     return (
         <div
-            onClick={() => !isActive && onClick()}
+            onClick={() => onClick()}
             className={cn(wrapperClassValues)}
         >
             <div className={"w-[40px] h-[40px] flex-shrink-0 flex flex-col items-center" +
@@ -48,7 +48,9 @@ const StepBanner = ({stepBanners} : {
     const handlePathName = (pathName: string) => {
         const currPathIndex = currPathName.at(-1) as string
         const nextPathIndex = pathName.at(-1) as string
-        const nextPathName = currPathName.replace(currPathIndex, nextPathIndex)
+        const nextPathName = currPathName.replace(
+            `step-${currPathIndex}`, `step-${nextPathIndex}`
+        )
         router.push(nextPathName)
     }
 

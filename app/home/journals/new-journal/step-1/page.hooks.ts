@@ -17,11 +17,11 @@ export const useCreateJournalFirstStep = () =>  {
         resolver: zodResolver(createJournalSchema)
     })
 
-    const fillData = useStore(state => state.fillData)
+    const fillJournalData = useStore(state => state.fillJournalData)
 
     const onSubmit = (data : FieldValues) => {
         console.log(data)
-        fillData(data as any)
+        fillJournalData(data as any)
         router.push("/home/journals/new-journal/step-2")
     }
 
