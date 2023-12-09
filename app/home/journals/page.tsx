@@ -4,40 +4,43 @@ import Button from "@/app/components/atoms/buttons/button/Button";
 import {useJournalsPage} from "@/app/home/journals/page.hooks";
 import {FiPlus, FiSearch} from "react-icons/fi";
 import TextInput from "@/app/components/atoms/inputs/TextInput";
-import React, {useState} from "react";
+import React from "react";
 import GridBlock from "@/app/components/wrappers/blocks/grid-block/GridBlock";
 import JournalCard from "@/app/components/organisms/cards/journal-card/JournalCard";
-import {useRouter} from "next/navigation";
-import DeletePopup from "@/app/components/organisms/popups/delete-popup/DeletePopup";
+import DeletePopup, {ItemData} from "@/app/components/organisms/popups/delete-popup/DeletePopup";
 
 const JournalsPage = () => {
 
-    const [
-        journalIdToDelete,
-        setJournalIdToDelete
-    ] = useState<number | undefined>(undefined)
-
-    const router = useRouter()
-
     const {
-        journals,
-        journalName,
+        journals, journalToDelete,
+        journalName, confirmText,
+        setText, setJournalIdToDelete,
+        handleCreateJournal,
+        handleDeleteJournal,
         setJournalName
     } = useJournalsPage()
+
+    const itemData : ItemData[] = [
+        {header : "Journal name", content : journalToDelete?.name},
+        {header : "Issues count", content : journalToDelete?.issueCount.toString()},
+        {header : "Workers count", content : journalToDelete?.workerCount.toString()},
+    ]
 
     return (
         <>
             {
-                journalIdToDelete &&
-                <DeletePopup
-                    journalId={journalIdToDelete}
+                journalToDelete && <DeletePopup
+                    confirmText={confirmText}
+                    itemData={itemData}
+                    onChange={setText}
+                    onDelete={handleDeleteJournal}
                     onClose={() => setJournalIdToDelete(undefined)}
                 />
             }
             <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
                 <GridBlock>
                     <Button
-                        onClick={() => router.push("/home/journals/new-journal/step-1")}
+                        onClick={handleCreateJournal}
                         className={"col-span-3"}
                         icon={<FiPlus size={"18px"}/>}
                         text={"Add journal"}

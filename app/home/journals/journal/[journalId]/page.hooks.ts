@@ -4,6 +4,7 @@ import {useStore} from "@/app/store/useStore";
 import {useShallow} from "zustand/react/shallow";
 import {useEffect, useState} from "react";
 import {Exception} from "@/app/types/entities";
+import {Issue} from "@/app/types/issue";
 
 export const useJournalPage = (journalId : number) => {
 
@@ -13,28 +14,42 @@ export const useJournalPage = (journalId : number) => {
     const createIssuePath = pathName.concat(`/new-issue/step-1`)
     const journalSettingsPath = pathName.concat('/settings')
 
+    const [issues, getIssues, deleteIssue] = useStore(
+        useShallow(state => [
+            state.issues, state.getIssues, state.deleteIssue
+        ])
+    )
+
+    const [journal, getJournal] = useStore(
+        useShallow(state => [state.journal, state.getJournal])
+    )
+
     const [
         issueIdToDelete,
         setIssueIdToDelete
     ] = useState<number | undefined>(undefined)
 
+    const [
+        issueToDelete,
+        setIssueToDelete
+    ] = useState<Issue | undefined>(undefined)
+
+    const [
+        confirmText,
+        setText
+    ] = useState<string>("")
+
     const handleSettingsClick = () => router.push(journalSettingsPath)
     const handleCreateIssue = () => router.push(createIssuePath)
 
     const handleClosePopup = () => setIssueIdToDelete(undefined)
-    const handleDeleteIssue = (issueId : number) => setIssueIdToDelete(issueId)
-
-    const [issues, getIssues] = useStore(
-        useShallow(
-            state => [state.issues, state.getIssues]
-        )
-    )
-
-    const [journal, getJournal] = useStore(
-        useShallow(
-            state => [state.journal, state.getJournal]
-        )
-    )
+    const findIssueToDelete = () => issues.find((issue) => issue.id === issueIdToDelete)
+    const handleDeleteIssue = () => {
+        if (issueIdToDelete && confirmText === issueToDelete?.title) {
+            deleteIssue(issueIdToDelete)
+            setIssueIdToDelete(undefined)
+        }
+    }
 
     useEffect(() => {
         getIssues(journalId)
@@ -52,10 +67,16 @@ export const useJournalPage = (journalId : number) => {
             })
     }, [])
 
+    useEffect(() => {
+        setIssueToDelete(findIssueToDelete)
+    }, [issueIdToDelete])
+
     return {
         handleCreateIssue, handleSettingsClick,
         handleClosePopup, handleDeleteIssue,
-        issueIdToDelete, issues, journal
+        setText, setIssueIdToDelete,
+        issueIdToDelete, issueToDelete, issues,
+        journal, confirmText,
     }
 
 }

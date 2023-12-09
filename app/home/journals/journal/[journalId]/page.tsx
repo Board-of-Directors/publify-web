@@ -5,7 +5,7 @@ import {FiPlus} from "react-icons/fi";
 import GridBlock from "@/app/components/wrappers/blocks/grid-block/GridBlock";
 import IssueCardV2 from "@/app/components/organisms/issue-card-v2/IssueCardV2";
 import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
-import DeletePopup from "@/app/components/organisms/popups/delete-popup/DeletePopup";
+import DeletePopup, {ItemData} from "@/app/components/organisms/popups/delete-popup/DeletePopup";
 import {useJournalPage} from "@/app/home/journals/journal/[journalId]/page.hooks";
 import Text from "@/app/components/atoms/text/Text";
 
@@ -16,13 +16,25 @@ const JournalPage = ({params}: {
     const {
         handleCreateIssue, handleSettingsClick,
         handleClosePopup, handleDeleteIssue,
-        issueIdToDelete, issues, journal
+        setText, setIssueIdToDelete,
+        issueToDelete, issueIdToDelete,
+        issues, journal, confirmText
     } = useJournalPage(+params.journalId)
+
+    const itemData: ItemData[] = [
+        {header: "Issue name", content: issueToDelete?.title},
+        {header: "Issue number", content: `#${issueToDelete?.number}`}
+    ]
 
     return (
         <>
             {
                 issueIdToDelete && <DeletePopup
+                    classNames={{itemRow : "gap-[30px] justify-start"}}
+                    confirmText={confirmText}
+                    itemData={itemData}
+                    onChange={setText}
+                    onDelete={handleDeleteIssue}
                     onClose={handleClosePopup}
                 />
             }
@@ -49,7 +61,7 @@ const JournalPage = ({params}: {
                         issues.map((issue) => (
                             <IssueCardV2
                                 issue={issue}
-                                onDelete={handleDeleteIssue}
+                                onDelete={() => setIssueIdToDelete(issue.id)}
                             />
                         ))
                     }

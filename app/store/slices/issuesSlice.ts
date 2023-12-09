@@ -21,7 +21,8 @@ export type IssueSlice = {
     requestIssue: RequestIssue,
     fillData : (data : FirstStepData | SecondStepData) => void,
     getIssues: (journalId: number) => Promise<Exception | void>,
-    createIssue: (journalId: number) => Promise<Exception | void>
+    createIssue: (journalId: number) => Promise<Exception | void>,
+    deleteIssue : (issueId : number) => Promise<Exception | void>
 }
 
 export const issuesSlice: StateCreator<IssueSlice, [], [], IssueSlice> = (set, get) => ({
@@ -59,6 +60,11 @@ export const issuesSlice: StateCreator<IssueSlice, [], [], IssueSlice> = (set, g
             .then((response) => {
                 return response.data.exception as Exception
             })
+    },
+
+    deleteIssue : async (issueId : number) => {
+        return api.delete('/issue', {params : {issueId : issueId}})
+            .then((response) => response.data.exception as Exception)
     }
 
 })
