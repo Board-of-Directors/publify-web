@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {ClassValue} from "clsx";
 import Button from "@/app/components/atoms/buttons/button/Button";
@@ -15,6 +15,7 @@ import {Underline} from "@tiptap/extension-underline";
 import {Highlight} from "@tiptap/extension-highlight";
 import {useDroppable} from "@dnd-kit/core";
 import {BubbleMenu} from "@tiptap/extension-bubble-menu";
+import {ArticleItem} from "@/app/types/article";
 
 const ButtonRow = () => {
 
@@ -42,8 +43,9 @@ const ButtonRow = () => {
     )
 }
 
-const ArticleBlock = ({id}: {
-    id: number
+const ArticleBlock = ({articleItem, onChange}: {
+    articleItem: ArticleItem,
+    onChange : (state : string, curSeqNumber : number) => void
 }) => {
 
     const {
@@ -54,9 +56,13 @@ const ArticleBlock = ({id}: {
         transform,
         transition,
         ...draggable
-    } = useSortable({id: id});
+    } = useSortable(
+        {
+            id: articleItem.id
+        }
+    )
 
-    const droppable = useDroppable({id : id})
+    const droppable = useDroppable({id : articleItem.id})
 
     const style = {
         transition,
@@ -64,22 +70,19 @@ const ArticleBlock = ({id}: {
     };
 
     const editorCV: ClassValue[] = [
-        "p-5 border-2 border-background rounded-lg min-h-[180px]",
+        "p-5 border-2 border-background rounded-lg min-h-[200px]",
         "focus:outline-none text-[15px]"
     ]
 
-    const droppableCV : ClassValue[] = [
-        "absolute z-0 top-[87px] left-[1px] h-[300px] w-[807px] rounded-xl border-2",
+    const droppableCV: ClassValue[] = [
+        "absolute z-0 top-[88px] h-[325px] w-full rounded-2xl border-2",
         "border-info-blue-default border-dashed bg-info-blue-default bg-opacity-10",
-        {"bg-transparent border-none" : draggable.isDragging}
+        {"bg-transparent border-none": !draggable.isOver}
     ]
-
 
     const extensions: AnyExtension[] = [
         StarterKit, Underline, Highlight, BubbleMenu
     ]
-
-    const content = '<p>Enter text content...</p>'
 
     const editor = useEditor({
         extensions: extensions,
@@ -88,8 +91,16 @@ const ArticleBlock = ({id}: {
                 class: cn(editorCV),
             }
         },
-        content: content
+        onUpdate : ({editor}) => {
+            onChange(editor.getHTML(), articleItem.id)
+        },
     })
+
+    useEffect(() => {
+        if (editor?.isEmpty) {
+            editor?.commands.setContent(articleItem.content)
+        }
+    }, [articleItem])
 
     return (
         <div className={"relative h-fit col-span-full flex flex-col gap-[20px]"}>
@@ -108,8 +119,8 @@ const ArticleBlock = ({id}: {
                 <EditorContent editor={editor}/>
             </CardWrapper>
             <div
-                ref={droppable.setNodeRef}
                 className={cn(droppableCV)}
+                ref={droppable.setNodeRef}
             />
         </div>
     )

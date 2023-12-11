@@ -5,7 +5,7 @@ import {ClassValue} from "clsx";
 import Text from "@/app/components/atoms/text/Text";
 import Image from "next/image";
 import {FiSettings, FiTrash2} from "react-icons/fi";
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {Issue} from "@/app/types/issue";
 
@@ -19,13 +19,8 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
 
     const router: AppRouterInstance = useRouter()
     const pathName : string = usePathname()
-    const searchParams = useSearchParams()
 
-    const issueQueryPath = pathName
-        .concat(`?journalId=${searchParams.get("journalId")}`)
-        .concat(`/issue?issueId=${issue.id}`)
-
-    const handleButtonClick = () => router.push(pathName.concat(issueQueryPath))
+    const handleButtonClick = () => router.push(pathName.concat(`/issue/${issue.id}`))
 
     const classValues: ClassValue[] = [
         "col-span-3 p-5", className

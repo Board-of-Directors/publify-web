@@ -4,7 +4,7 @@ import Text from "@/app/components/atoms/text/Text";
 import Button from "@/app/components/atoms/buttons/button/Button";
 
 const HeaderBackRow = ({text, descr, buttonText, onBackClick, onButtonClick}: {
-    text: string,
+    text: string | undefined,
     descr : string,
     buttonText: string,
     onBackClick: () => void,

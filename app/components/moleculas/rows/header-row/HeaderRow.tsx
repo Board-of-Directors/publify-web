@@ -9,7 +9,7 @@ export type HeaderRowClassNames = {
 }
 
 const HeaderRow = ({header, classNames, leftContent, children}: {
-    header: string,
+    header ?: string,
     leftContent ?: React.ReactNode,
     children?: React.ReactNode,
     classNames?: HeaderRowClassNames,

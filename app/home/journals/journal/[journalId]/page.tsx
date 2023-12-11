@@ -45,6 +45,7 @@ const JournalPage = ({params}: {
                         classNames={{wrapper: "justify-between"}}
                         leftContent={
                             <Text
+                                // @ts-ignore
                                 text={`${journal.issueCount} issues`}
                                 className={"hint"}
                             />

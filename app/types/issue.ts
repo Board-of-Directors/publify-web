@@ -3,5 +3,5 @@ export type Issue = {
     title : string,
     number: number,
     releaseDate: string,
-    cover: string[]
+    cover: string
 }
