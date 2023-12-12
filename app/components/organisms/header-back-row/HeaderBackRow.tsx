@@ -1,19 +1,17 @@
 import React from 'react';
-import {FiArrowLeft, FiPlus} from "react-icons/fi";
+import {FiArrowLeft} from "react-icons/fi";
 import Text from "@/app/components/atoms/text/Text";
-import Button from "@/app/components/atoms/buttons/button/Button";
 
-const HeaderBackRow = ({text, descr, buttonText, onBackClick, onButtonClick}: {
-    text: string | undefined,
-    descr : string,
-    buttonText: string,
+const HeaderBackRow = ({header, leftContent, children, onBackClick}: {
+    header: string | undefined,
+    leftContent : React.ReactNode,
+    children : React.ReactNode,
     onBackClick: () => void,
-    onButtonClick: () => void
 }) => {
     return (
         <div className={"w-full grid grid-cols-12 gap-[30px]"}>
 
-            <div className={"col-span-9 flex flex-row items-center gap-[20px]"}>
+            <div className={"col-span-8 flex flex-row items-center gap-[20px]"}>
 
                 <FiArrowLeft
                     size={"20px"}
@@ -21,25 +19,17 @@ const HeaderBackRow = ({text, descr, buttonText, onBackClick, onButtonClick}: {
                     onClick={onBackClick}
                 />
 
-                <div className={"flex flex-row items-baseline gap-[20px]"}>
+                <div className={"flex flex-row items-center gap-[20px]"}>
                     <Text
-                        text={text}
+                        text={header}
                         className={"text-[20px] text-text-black"}
                     />
-                    <Text
-                        text={descr}
-                        className={"text-text-gray text-[16px]"}
-                    />
+                    {leftContent}
                 </div>
 
             </div>
 
-            <Button
-                text={buttonText}
-                onClick={onButtonClick}
-                className={"col-span-3"}
-                icon={<FiPlus size={"18px"}/>}
-            />
+            {children}
 
         </div>
     )

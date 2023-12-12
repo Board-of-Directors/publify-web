@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import {FiArrowLeft, FiBold, FiHash, FiItalic, FiTrash2, FiUnderline} from "react-icons/fi";
-import IconDrag from "@/app/components/icons/IconDrag";
+import {FiArrowLeft, FiBold, FiHash, FiItalic, FiUnderline} from "react-icons/fi";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 import SelectButton, {SelectItem} from "@/app/components/atoms/buttons/select-button/SelectButton";
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
 import {DraggableAttributes} from "@dnd-kit/core";
 import {Editor} from "@tiptap/react";
+import DragDeleteButtonRow from "@/app/components/moleculas/rows/drag-delete-button-row/DragDeleteButtonRow";
 
 export type IconButton = {
     icon: React.ReactNode,
@@ -73,11 +73,12 @@ const TextDecoratorRow = ({editor}: { editor: Editor | null }) => {
 
 }
 
-const ArticleBlockEditRow = ({editor, setActivatorNodeRef, listeners, attributes}: {
-    editor: Editor | null,
-    setActivatorNodeRef: (element: (HTMLElement | null)) => void,
-    listeners: SyntheticListenerMap | undefined,
-    attributes: DraggableAttributes
+const ArticleBlockEditRow = ({editor, setActivatorNodeRef, listeners, attributes, onDelete}: {
+    editor: Editor | null
+    setActivatorNodeRef?: (element: (HTMLElement | null)) => void,
+    listeners?: SyntheticListenerMap | undefined,
+    attributes?: DraggableAttributes,
+    onDelete: () => void
 }) => {
 
     const selectItems: SelectItem[] = [
@@ -110,20 +111,12 @@ const ArticleBlockEditRow = ({editor, setActivatorNodeRef, listeners, attributes
                 />
                 <TextDecoratorRow editor={editor}/>
             </div>
-            <div className={"flex flex-row items-center gap-3"}>
-                <FiTrash2
-                    size={"20px"}
-                    type={"red"}
-                    className={"icon hover:cursor-pointer"}
-                    onClick={() => console.log("DELETE")}
-                />
-                <div ref={setActivatorNodeRef} {...listeners} {...attributes}>
-                    <IconDrag
-                        className={"icon hover:cursor-grab active:cursor-grabbing"}
-                        onClick={() => console.log("DRAG")}
-                    />
-                </div>
-            </div>
+            <DragDeleteButtonRow
+                onDelete={onDelete}
+                setActivatorNodeRef={setActivatorNodeRef}
+                listeners={listeners}
+                attributes={attributes}
+            />
         </div>
     )
 }

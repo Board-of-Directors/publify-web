@@ -8,10 +8,10 @@ import React, {ChangeEvent, LegacyRef, useRef} from "react";
 import {FieldValues, UseFormRegister} from "react-hook-form";
 
 type FileInputProps = {
-    value: File | undefined,
+    value : File | undefined | string,
     onChange: (e: ChangeEvent<HTMLInputElement>) => void,
     onClear: () => void,
-    register ?: UseFormRegister<FieldValues>,
+    register?: UseFormRegister<FieldValues>,
     label?: string,
     placeholder?: string,
     className?: string,
@@ -38,6 +38,10 @@ const FileInput = (props: FileInputProps) => {
 
     const inputRef = useRef<HTMLInputElement | undefined>(undefined)
 
+    const value = props.value ? props.value instanceof File
+        ? props.value?.name ?? props.placeholder : props.value
+        : props.placeholder
+
     const handleInputClear = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
         const element = event.target as HTMLInputElement
         element.value = ''
@@ -55,7 +59,7 @@ const FileInput = (props: FileInputProps) => {
             />
             <div className={cn(classValues)}>
                 <Text
-                    text={props.value?.name ?? props.placeholder}
+                    text={value}
                     className={cn(textClassValues)}
                 />
                 {

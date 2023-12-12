@@ -1,4 +1,6 @@
-export const mockArticleItems = [
+import {ArticleItem} from "@/app/types/article";
+
+export const mockArticleItems : ArticleItem[] = [
     {
         content: "<p>Enter some text</p>",
         contentType: "text",

@@ -12,9 +12,11 @@ export type Article = {
     illustrationBlocksCount : number
 }
 
+export type ContentType = "text" | "image"
+
 export type ArticleItem = {
     id : number,
     content : string,
-    contentType : string,
+    contentType : ContentType,
     sequenceNumber : number
 }
