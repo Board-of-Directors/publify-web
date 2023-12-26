@@ -1,4 +1,4 @@
-import React, {LegacyRef} from 'react';
+import React, {CSSProperties, LegacyRef} from 'react';
 import {cn} from "@/app/utils/cn";
 
 type CardWrapperProps = {
@@ -8,7 +8,7 @@ type CardWrapperProps = {
     },
     children: React.ReactNode,
     onClick?: () => void,
-    className?: string
+    className?: string,
 }
 
 const CardWrapper = React.forwardRef(({className, onClick, children, style}: CardWrapperProps, ref) => {

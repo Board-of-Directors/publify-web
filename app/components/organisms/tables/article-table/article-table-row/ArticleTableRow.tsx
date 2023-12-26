@@ -8,7 +8,9 @@ import {Article} from "@/app/types/article";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 
-const ArticleTableRow = ({article}: {
+const ArticleTableRow = ({article, editable, onClick}: {
+    editable : boolean,
+    onClick ?: (article : Article) => void,
     article: Article
 }) => {
 
@@ -23,13 +25,15 @@ const ArticleTableRow = ({article}: {
     ]
 
     const articleData: string[] = [
-        article.name, article.description,
-        `${article.textBlocksCount} blocks`,
+        article.name, `${article.textBlocksCount} blocks`,
         `${article.textBlocksCount} blocks`
     ]
 
     return (
-        <div onClick={() => handleRowClick(article.id)} className={cn(wrapperCV)}>
+        <div
+            onClick={() => handleRowClick(article, onClick)}
+            className={cn(wrapperCV)}
+        >
             <div className={"flex flex-row items-baseline gap-[60px]"}>
                 {
                     articleData.map((item) => <Text
@@ -38,18 +42,20 @@ const ArticleTableRow = ({article}: {
                     />)
                 }
             </div>
-            <div className={"flex flex-row gap-[15px] items-center"}>
-                <FiSettings
-                    size={"20px"}
-                    className={"stroke-text-gray hover:cursor-pointer hover:stroke-info-blue-default"}
-                    onClick={() => console.log("Settings Clicked")}
-                />
-                <FiTrash2
-                    size={"20px"}
-                    className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
-                    onClick={handleDeleteClick}
-                />
-            </div>
+            {
+                editable && <div className={"flex flex-row gap-[15px] items-center"}>
+                    <FiSettings
+                        size={"20px"}
+                        className={"stroke-text-gray hover:cursor-pointer hover:stroke-info-blue-default"}
+                        onClick={() => console.log("Settings Clicked")}
+                    />
+                    <FiTrash2
+                        size={"20px"}
+                        className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
+                        onClick={handleDeleteClick}
+                    />
+                </div>
+            }
         </div>
     )
 }

@@ -4,20 +4,38 @@ import ArticleTableHeader
     from "@/app/components/organisms/tables/article-table/article-table-header/ArticleTableHeader";
 import ArticleTableRow from "@/app/components/organisms/tables/article-table/article-table-row/ArticleTableRow";
 import {Article} from "@/app/types/article";
+import {ClassValue} from "clsx";
+import {cn} from "@/app/utils/cn";
 
-const ArticleTable = ({articles}: { articles: (Article | undefined)[] }) => {
+type ArticleTableProps = {
+    articles : Article[] | undefined,
+    editable ?: boolean,
+    onArticleClick ?: (article : Article) => void,
+    className ?: string
+}
+
+const ArticleTable = ({editable = true, ...props} : ArticleTableProps) => {
 
     const titles = [
-        "Article name", "Article description",
-        "Text blocks count", "Illustrations count"
+        "Article name", "Text blocks count",
+        "Illustrations count"
+    ]
+
+    const mainWrapperCV : ClassValue[] = [
+        "w-full !p-0 !gap-0",
+        props.className
     ]
 
     return (
-        <CardWrapper className={"w-full !p-0 !gap-0"}>
+        <CardWrapper className={cn(mainWrapperCV)}>
             <ArticleTableHeader titles={titles}/>
             {
-                articles && articles.map((article) =>
-                    <ArticleTableRow article={article}/>
+                props.articles && props.articles.map((article) =>
+                    <ArticleTableRow
+                        editable={editable}
+                        onClick={props.onArticleClick}
+                        article={article}
+                    />
                 )
             }
         </CardWrapper>

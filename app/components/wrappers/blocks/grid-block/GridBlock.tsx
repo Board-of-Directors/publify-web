@@ -3,7 +3,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 
 type WrapperProps = {
-    children : React.ReactNode[],
+    children : React.ReactNode,
     className? : string
 }
 

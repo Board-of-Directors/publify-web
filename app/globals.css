@@ -33,3 +33,27 @@ h2 {
 h3 {
     @apply text-[20px] text-text-black;
 }
+
+.boldStyle {
+    @apply font-bold;
+}
+
+.italicStyle {
+    @apply italic;
+}
+
+.underlineStyle {
+    @apply underline-offset-4;
+}
+
+.monoStyle {
+    @apply font-mono;
+}
+
+.sansStyle {
+    @apply font-sans;
+}
+
+.serifStyle {
+    @apply font-serif;
+}
