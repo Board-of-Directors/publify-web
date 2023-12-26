@@ -6,9 +6,11 @@ import {CreateJournalSlice, createJournalSlice} from "@/app/store/slices/createJ
 import {IssueSlice, issuesSlice} from "@/app/store/slices/issuesSlice";
 import {articleSlice, ArticleSlice} from "@/app/store/slices/articleSlice";
 import {editorCreateIssueSlice, EditorCreateIssueSlice} from "@/app/store/slices/editorCreateIssueSlice";
+import {editorSettingsSlice, EditorSettingsSlice} from "@/app/store/slices/editorSettingsSlice";
 
 type StoreSlices = JournalsSlice & AuthorizationSlice & EmployeeSlice
     & CreateJournalSlice & IssueSlice & ArticleSlice & EditorCreateIssueSlice
+    & EditorSettingsSlice
 
 export const useStore = create<StoreSlices>()
 ((...config) => ({
@@ -18,5 +20,6 @@ export const useStore = create<StoreSlices>()
     ...createJournalSlice(...config),
     ...issuesSlice(...config),
     ...articleSlice(...config),
-    ...editorCreateIssueSlice(...config)
+    ...editorCreateIssueSlice(...config),
+    ...editorSettingsSlice(...config)
 }))

@@ -1,6 +1,11 @@
+import {usePathname, useRouter} from "next/navigation";
+
 export const useArticleHeaderRow = () => {
 
-    const handleSettingsClick = () => console.log("SETTINGS CLICKED")
+    const router = useRouter()
+    const pathname = usePathname()
+
+    const handleSettingsClick = () => router.push(pathname.concat("/settings"))
     const handleSaveChangesClick = () => console.log("SAVE CHANGES")
     const handleDownloadPDFClick = () => console.log("DOWNLOAD AS PDF")
 
