@@ -1,4 +1,4 @@
-type Role = "Illustrator" | "Copyrighter" | "Editor"
+export type Role = "Illustrator" | "Copyrighter" | "Editor"
 
 export type Employee = {
     email : string,
