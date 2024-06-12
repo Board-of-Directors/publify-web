@@ -22,9 +22,9 @@ const NavbarTabList = () => {
                 onClick={() => handleTabClick("journals")}
             />
             <HomeNavbarTab
-                text={"Profile"}
-                isActive={pathName.includes("profile")}
-                onClick={() => handleTabClick("profile")}
+                text={"Organization"}
+                isActive={pathName.includes("organization-settings")}
+                onClick={() => handleTabClick("organization-settings")}
             />
         </div>
     )

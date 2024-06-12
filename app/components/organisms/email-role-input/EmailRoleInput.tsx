@@ -4,17 +4,20 @@ import React from 'react';
 import TextInput from "@/app/components/atoms/inputs/TextInput";
 import SelectInput from "@/app/components/atoms/inputs/SelectInput";
 import {Employee, Role} from "@/app/types/entities";
+import {FiTrash2} from "react-icons/fi";
 
 type EmailRoleInputProps = {
     employees: Employee[],
     setEmployees: (value: Employee[]) => void,
     classNames?: EmailRoleClassName
+    deleteEmployee?: (index: number) => void
 }
 
-const EmailRoleRow = ({employee, setEmployee, classNames}: {
+const EmailRoleRow = ({employee, setEmployee, classNames, deleteEmployee}: {
     employee: Employee,
     setEmployee: (employee: Employee) => void,
     classNames?: EmailRoleClassName
+    deleteEmployee?: (index: number) => void
 }) => {
 
     const roles = ["Copyrighter", "Illustrator", "Editor"]
@@ -41,9 +44,17 @@ const EmailRoleRow = ({employee, setEmployee, classNames}: {
                 options={roles}
                 className={classNames?.roleWrapper}
             />
+            {
+                deleteEmployee ? (
+                    <FiTrash2
+                        size={"20px"}
+                        className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
+                        onClick={deleteEmployee}
+                    />
+                ) : null
+            }
         </div>
     )
-
 }
 
 type EmailRoleClassName = {
