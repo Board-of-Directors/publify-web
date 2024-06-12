@@ -17,19 +17,6 @@ const OrganizationSettingsPage = () => {
         <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
             <GridBlock>
                 <CardWrapper className={"w-full p-[20px] flex flex-row justify-between col-span-6"}>
-                    <form onSubmit={undefined /*TODO*/} className={"w-full flex flex-col gap-4"}>
-                        <div>
-                            <TextInput
-                                label={"Organization name"}
-                                register="" //TODO
-                                error="" //TODO
-                                labelClassName={"text-[18px] text-text-black"}
-                                placeholder={""} //TODO
-                            />
-                        </div>
-                    </form>
-                </CardWrapper>
-                <CardWrapper className={"w-full p-[20px] flex flex-row justify-between col-span-6"}>
                     <form onSubmit={undefined /*TODO*/} className={"flex flex-col gap-4"}>
                         <Text
                             text={"Ogranization members"}
@@ -51,7 +38,19 @@ const OrganizationSettingsPage = () => {
                                 onClick={undefined /*TODO*/}
                             />
                     </form>
-                </CardWrapper>
+                </CardWrapper>                <CardWrapper className={"w-full p-[20px] flex flex-row justify-between col-span-6"}>
+                <form onSubmit={undefined /*TODO*/} className={"w-full flex flex-col gap-4"}>
+                    <div>
+                        <TextInput
+                            label={"Organization name"}
+                            register="" //TODO
+                            error="" //TODO
+                            labelClassName={"text-[18px] text-text-black"}
+                            placeholder={""} //TODO
+                        />
+                    </div>
+                </form>
+            </CardWrapper>
             </GridBlock>
         </div>
     );
