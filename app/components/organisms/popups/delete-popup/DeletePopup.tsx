@@ -7,6 +7,7 @@ import TextInput from "@/app/components/atoms/inputs/TextInput";
 import Button from "@/app/components/atoms/buttons/button/Button";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
+import {PopupProps} from "@/app/components/organisms/popups/Popup.types";
 
 export type ItemData = {
     header: string,
@@ -23,9 +24,8 @@ type DeletePopupProps = {
     confirmText?: string,
     onChange?: (confirmText: string) => void,
     itemData: ItemData[],
-    onDelete: () => void,
-    onClose: () => void
-}
+    onDelete: () => void
+} & PopupProps
 
 const ItemRow = ({itemData, className}: {
     itemData: ItemData[],

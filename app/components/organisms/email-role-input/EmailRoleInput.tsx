@@ -10,14 +10,14 @@ type EmailRoleInputProps = {
     employees: Employee[],
     setEmployees: (value: Employee[]) => void,
     classNames?: EmailRoleClassName
-    deleteEmployee?: (index: number) => void
+    onDeleteEmployee?: (index: number) => void
 }
 
-const EmailRoleRow = ({employee, setEmployee, classNames, deleteEmployee}: {
+const EmailRoleRow = ({employee, setEmployee, classNames, onDeleteEmployee}: {
     employee: Employee,
     setEmployee: (employee: Employee) => void,
     classNames?: EmailRoleClassName
-    deleteEmployee?: (index: number) => void
+    onDeleteEmployee?: (index: number) => void
 }) => {
 
     const roles = ["Copyrighter", "Illustrator", "Editor"]
@@ -45,11 +45,11 @@ const EmailRoleRow = ({employee, setEmployee, classNames, deleteEmployee}: {
                 className={classNames?.roleWrapper}
             />
             {
-                deleteEmployee ? (
+                onDeleteEmployee ? (
                     <FiTrash2
                         size={"20px"}
                         className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
-                        onClick={deleteEmployee}
+                        onClick={onDeleteEmployee}
                     />
                 ) : null
             }

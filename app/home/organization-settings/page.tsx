@@ -11,45 +11,46 @@ import EmailRoleInput from "@/app/components/organisms/email-role-input/EmailRol
 import TextButton from "@/app/components/atoms/buttons/text-button/TextButton";
 import {FiPlus} from "react-icons/fi";
 import Text from "@/app/components/atoms/text/Text";
+import {useOrganizationSettings} from "@/app/home/organization-settings/page.hooks";
+import AddUserPopup from "@/app/components/organisms/popups/add-user-popup/AddUserPopup";
 
 const OrganizationSettingsPage = () => {
+
+    const methods = useOrganizationSettings();
+
     return (
         <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
+            {false && <AddUserPopup onClose={() => {}}/>}
             <GridBlock>
-                <CardWrapper className={"w-full p-[20px] flex flex-row justify-between col-span-6"}>
-                    <form onSubmit={undefined /*TODO*/} className={"flex flex-col gap-4"}>
-                        <Text
-                            text={"Ogranization members"}
-                            className={"text-[18px] text-text-black"}
-                        />
-                            <EmailRoleInput
-                                employees={[]} //TODO
-                                setEmployees={()=>[]} //TODO
+                <CardWrapper className={"w-full p-[20px] flex flex-col gap-3 col-span-6"}>
+                    <Text
+                        className={"text-[18px] text-text-black"}
+                        text={"Organization members"}
+                    />
+                    <EmailRoleInput
+                        onDeleteEmployee={methods.handleDeleteEmployee}
+                        {...methods}
+                    />
+                    <TextButton
+                        onClick={methods.handleAddEmployee}
+                        text={"Add member"}
+                        className={"w-fit"}
+                        icon={
+                            <FiPlus
+                                className={"stroke-info-blue"}
+                                size={"22px"}
                             />
-                            <TextButton
-                                text={"Add member"}
-                                className={"w-fit"}
-                                icon={
-                                    <FiPlus
-                                        size={"22px"}
-                                        className={"stroke-info-blue"}
-                                    />
-                                }
-                                onClick={undefined /*TODO*/}
-                            />
-                    </form>
-                </CardWrapper>                <CardWrapper className={"w-full p-[20px] flex flex-row justify-between col-span-6"}>
-                <form onSubmit={undefined /*TODO*/} className={"w-full flex flex-col gap-4"}>
-                    <div>
-                        <TextInput
-                            label={"Organization name"}
-                            register="" //TODO
-                            error="" //TODO
-                            labelClassName={"text-[18px] text-text-black"}
-                            placeholder={""} //TODO
-                        />
-                    </div>
-                </form>
+                        }
+                    />
+                </CardWrapper>
+                <CardWrapper className={"w-full p-[20px] flex flex-col gap-3 col-span-6"}>
+                    <TextInput
+                        label={"Organization name"}
+                        labelClassName={"text-[18px] text-text-black"}
+                        placeholder={"Type here organization name"}
+                        onChange={methods.setOrganizationName}
+                        value={methods.organizationName}
+                    />
             </CardWrapper>
             </GridBlock>
         </div>

@@ -1,10 +1,23 @@
-import {FieldValues, useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useStore} from "@/app/store/useStore";
-import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
-import {useRouter} from "next/navigation";
-import {createJournalSchema} from "@/app/schemas/createJournalSchema";
+import {useState} from "react";
+import {Employee} from "@/app/types/entities";
 
 export const useOrganizationSettings = () =>  {
+
+    const [employees, setEmployees] = useState<Employee[]>([]);
+    const [organizationName, setOrganizationName] = useState<string>('');
+
+    const handleAddEmployee = () => {
+        //TODO
+    }
+
+    const handleDeleteEmployee = (rowIndex : number) => {
+        //TODO
+    }
+
+    return {
+        organizationName, setOrganizationName,
+        handleDeleteEmployee, handleAddEmployee,
+        employees, setEmployees,
+    }
 
 }
