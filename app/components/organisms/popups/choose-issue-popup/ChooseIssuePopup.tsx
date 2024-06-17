@@ -5,14 +5,17 @@ import {useUnit} from "effector-react";
 import {
     $notLinkedIssues,
     getNotLinkedIssuesEvent
-} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/page.model.get-not-linked-issues";
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-not-linked-issues";
 import {usePathname} from "next/navigation";
 import {FiX} from "react-icons/fi";
 import HeaderRow from "@/app/components/moleculas/rows/header-row/HeaderRow";
 import SelectableIssueCard from "@/app/components/organisms/issue-card-v2/SelectableIssueCard";
 import {Issue} from "@/app/types/issue";
 import Button from "@/app/components/atoms/buttons/button/Button";
-import {importIssuesFx} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/page.model.import-issues";
+import {importIssuesFx} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.import-issues";
+import {
+    getLinkedIssuesEvent
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-linked-issues";
 
 const wrapperStyles = {card: "w-[1000px] p-7 gap-4"}
 
@@ -22,7 +25,8 @@ const headerRowStyles = {
 }
 
 const ChooseIssuePopup = (props: PopupProps) => {
-    const importIssues = useUnit(importIssuesFx);
+
+    const [importIssues, getLinkedIssues] = useUnit([importIssuesFx, getLinkedIssuesEvent]);
     const [notLinkedIssues, getNotLinkedIssues] = useUnit([$notLinkedIssues, getNotLinkedIssuesEvent]);
     const [selectedIssues, updateSelectedIssues] = useState<Issue[]>([]);
 
@@ -31,7 +35,10 @@ const ChooseIssuePopup = (props: PopupProps) => {
 
     const handleImportIssues = () => {
         importIssues({issueId : +issueId, linkedIssues : selectedIssues.map(issue => issue.id)})
-            .then(_ => props.onClose());
+            .then(_ => {
+                getLinkedIssues(+issueId);
+                props.onClose()
+            });
     }
 
     const handleUpdateIssue = (issue : Issue) => {

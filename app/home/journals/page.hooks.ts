@@ -3,10 +3,13 @@ import {useStore} from "@/app/store/useStore";
 import {useShallow} from "zustand/react/shallow";
 import {JournalCard} from "@/app/types/entities";
 import {useRouter} from "next/navigation";
+import {useUnit} from "effector-react";
+import {$credentials, getCredentialsFx} from "@/app/home/organization-settings/models/page.model.credentials";
 
 export const useJournalsPage = () => {
 
     const router = useRouter()
+    const [credentials, getCredentials] = useUnit([$credentials, getCredentialsFx]);
 
     const [journals, searchJournals] = useStore(
         useShallow(state => [
@@ -46,14 +49,18 @@ export const useJournalsPage = () => {
     }
 
     useEffect(() => {
-        searchJournals(journalName)
-        const interval = setInterval(searchJournals, 3000)
-        return () => clearInterval(interval)
-    }, [journalName])
+        if (credentials) {
+            searchJournals(journalName, credentials.organizationId);
+        }
+    }, [journalName, credentials])
 
     useEffect(() => {
         setJournalToDelete(findJournalToDelete())
     }, [journalIdToDelete]);
+
+    useEffect(() => {
+        getCredentials();
+    }, []);
 
     return {
         journals, journalToDelete,

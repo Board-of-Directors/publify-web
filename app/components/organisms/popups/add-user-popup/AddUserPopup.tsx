@@ -53,7 +53,11 @@ const AddUserPopup = (props: PopupProps) => {
     }
 
     useEffect(() => {
-        methods.reset({role: roles[0]});
+        methods.reset({
+            role: {
+                value: roles[0]
+            }
+        });
     }, []);
 
     return (

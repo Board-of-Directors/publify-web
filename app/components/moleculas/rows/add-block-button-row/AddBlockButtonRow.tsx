@@ -3,7 +3,7 @@ import Button from "@/app/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import {cn} from "@/app/utils/cn";
 import {ClassValue} from "clsx";
-import {useRole} from "@/app/utils/useRole";
+import {useRole} from "@/app/utils/hooks/useRole";
 
 const buttonCV: ClassValue[] = [
     "border-dashed text-text-gray border-2 border-border-gray bg-transparent",

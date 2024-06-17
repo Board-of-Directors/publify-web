@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import CardWrapper from "@/app/components/wrappers/card/card-wrapper/CardWrapper";
 import ArticleTableHeader
     from "@/app/components/organisms/tables/article-table/article-table-header/ArticleTableHeader";
@@ -11,9 +11,14 @@ import {FiPlus} from "react-icons/fi";
 import {useToggle} from "usehooks-ts";
 import {createPortal} from "react-dom";
 import ChooseIssuePopup from "@/app/components/organisms/popups/choose-issue-popup/ChooseIssuePopup";
+import {useUnit} from "effector-react";
+import {
+    $linkedIssues,
+    getLinkedIssuesEvent
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-linked-issues";
+import {useGetIssueId} from "@/app/utils/hooks/useGetIssueId";
 
 type ArticleTableProps = {
-    articles: Article[] | undefined,
     editable?: boolean,
     onArticleClick?: (article: Article) => void,
     className?: string
@@ -21,7 +26,9 @@ type ArticleTableProps = {
 
 const ArticleTable = ({editable = true, ...props}: ArticleTableProps) => {
 
+    const issueId = useGetIssueId();
     const [chooseIssuePopupOpen, toggleOpenPopup] = useToggle();
+    const [linkedIssues, getLinkedIssues] = useUnit([$linkedIssues, getLinkedIssuesEvent]);
 
     const titles = [
         "Article name", "Text blocks count",
@@ -32,6 +39,10 @@ const ArticleTable = ({editable = true, ...props}: ArticleTableProps) => {
         "w-full !p-0 !gap-0",
         props.className
     ]
+
+    useEffect(() => {
+        getLinkedIssues(+issueId);
+    }, []);
 
     return (
         <CardWrapper className={cn(mainWrapperCV)}>
@@ -46,13 +57,22 @@ const ArticleTable = ({editable = true, ...props}: ArticleTableProps) => {
                 />
             </span>
             <ArticleTableHeader titles={titles}/>
-            {props.articles && props.articles.map((article) =>
-                <ArticleTableRow
-                    editable={editable}
-                    onClick={props.onArticleClick}
-                    article={article}
-                />
-            )}
+            <section className={'w-full flex flex-col'}>
+                {linkedIssues.map((group, index) => (
+                    <>
+                        <h2 className={'text-[18px] font-semibold p-5 border-b-2 border-background bg-gray-50'}>{group.groupName}</h2>
+                        <div className={'w-full flex flex-col'}>
+                            {group.articles.map((article, articleIndex) =>
+                                <ArticleTableRow
+                                    onClick={props.onArticleClick}
+                                    article={article} key={articleIndex}
+                                    editable={editable}
+                                />
+                            )}
+                        </div>
+                    </>
+                ))}
+            </section>
         </CardWrapper>
     );
 

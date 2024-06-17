@@ -6,7 +6,7 @@ import Button from "@/app/components/atoms/buttons/button/Button";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 import {usePathname} from "next/navigation";
-import {useRole} from "@/app/utils/useRole";
+import {useRole} from "@/app/utils/hooks/useRole";
 import Link from "next/link";
 
 export type ArticleHeaderRowProps = {

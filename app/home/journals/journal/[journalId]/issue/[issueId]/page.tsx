@@ -9,7 +9,7 @@ import {FiPlus} from "react-icons/fi";
 import Text from "@/app/components/atoms/text/Text";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {useRole} from "@/app/utils/useRole";
+import {useRole} from "@/app/utils/hooks/useRole";
 
 const IssuePage = ({params}: {
     params: {

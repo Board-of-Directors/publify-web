@@ -19,6 +19,7 @@ import {$credentials, getCredentialsFx} from "@/app/home/organization-settings/m
 import {createPortal} from "react-dom";
 import {editEmployeeFx} from "@/app/home/organization-settings/models/page.model.edit-employee";
 import Toast from "@/app/components/moleculas/toast/Toast";
+import {Toast as ToastProps} from 'primereact/toast';
 
 const OrganizationSettingsPage = () => {
 
@@ -29,7 +30,7 @@ const OrganizationSettingsPage = () => {
     const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(null);
     const [addPopupVisible, toggleAddPopupVisible] = useToggle();
 
-    const toastRef = useRef<Toast>(null);
+    const toastRef = useRef<ToastProps>(null);
 
     const handleChangeOrganizationName = (newName: string) => {
         setOrganizationName(newName);

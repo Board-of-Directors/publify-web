@@ -165,14 +165,12 @@ const EditorIssuePage = ({params}: {
             <ArticleHeaderRow name={context.issue.title}/>
             <div className={"w-full px-[215px] flex mb-[30px] flex-col gap-[30px]"}>
                 <GridBlock>
-
                     <img
                         className={"col-span-8 rounded-xl object-fill"}
                         src={`data:image/jpeg;base64,${context.issueCover}`}
                         alt={"/"}
                     />
                     <ArticleCoverSider/>
-
                     {
                         context.issueBlocks.map((issueBlock) => (
                             <GridBlock className={"col-span-full"}>
@@ -184,14 +182,12 @@ const EditorIssuePage = ({params}: {
                             </GridBlock>
                         ))
                     }
-
                     <EditorAddArticleBlock
-                        articles={context.availableArticles}
                         onAddArticle={context.handleAddIssueBlock}
                         onAddTableOfContent={() => console.log("TABLE OF CONTENTS")}
                         onAddAdvertisementPage={() => console.log("ADVERTISEMENT PAGE")}
+                        articles={context.availableArticles}
                     />
-
                 </GridBlock>
             </div>
         </>

@@ -15,7 +15,7 @@ const ControlledSelectInput = <T extends FieldValues, >(props: ControlledSelectI
                 <SelectInput
                     {...props}
                     onChange={(value) => onChange({value : value})}
-                    value={value.value ?? props.options[0]}
+                    value={value?.value ?? props.options[0]}
                 />
             )}
         />

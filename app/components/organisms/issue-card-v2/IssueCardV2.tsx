@@ -10,6 +10,8 @@ import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-
 import {Issue} from "@/app/types/issue";
 import {jwtDecode} from "jwt-decode";
 
+import DefaultImage from '@/public/default-image.png';
+
 type IssueCardV2Props = {
     issue: Issue,
     onDelete?: (issueId: number) => void,
@@ -53,8 +55,8 @@ const IssueCardV2 = ({issue, className, onDelete, onClick, isInteractive = true}
             />
             <Image
                 onClick={handleButtonClick}
-                className={"hover:cursor-pointer w-full h-[300px] object-scale-down"}
-                src={`data:image/jpeg;base64,${issue.cover}`}
+                className={"hover:cursor-pointer w-full h-[300px] object-fill"}
+                src={issue.cover ? `data:image/jpeg;base64,${issue.cover}` : DefaultImage.src}
                 width={100} height={100}
                 alt={'/'} quality={100}
             />

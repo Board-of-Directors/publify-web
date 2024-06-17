@@ -38,9 +38,8 @@ const EditorAddArticleBlock = (props : EditorAddArticleBlockProps) => {
                 />
             </div>
             <ArticleTable
-                editable={false}
                 onArticleClick={props.onAddArticle}
-                articles={props.articles}
+                editable={false}
             />
         </div>
     );
