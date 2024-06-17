@@ -1,5 +1,5 @@
 import {AddMemberData} from "@/app/schemas/addMemberSchema";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {createEffect} from "effector";
 
 export const addMember = async (member : AddMemberData) => {

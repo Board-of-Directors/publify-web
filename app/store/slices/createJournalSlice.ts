@@ -1,6 +1,6 @@
 import {Exception, Journal} from "@/app/types/entities";
 import {StateCreator} from "zustand";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 
 export type FirstStepData = {
     name: string,

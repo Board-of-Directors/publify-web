@@ -1,6 +1,6 @@
 import {StateCreator} from "zustand";
 import {Exception} from "@/app/types/entities";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {Article, ArticleItem, RequestArticle} from "@/app/types/article";
 
 export type ArticleSlice = {

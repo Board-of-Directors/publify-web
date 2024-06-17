@@ -14,7 +14,7 @@ const PopupLayout = ({children, classNames}: {
 }) => {
 
     const classValues: ClassValue[] = [
-        "fixed z-10 w-full h-full bg-text-black bg-opacity-50",
+        "fixed top-0 left-0 z-30 w-full h-full bg-text-black bg-opacity-50",
         "flex items-center justify-center"
     ]
 

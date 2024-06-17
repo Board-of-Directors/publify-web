@@ -1,15 +1,15 @@
 import React from 'react';
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
-import {InputData} from "@/app/types/entities";
-import SelectInput from "@/app/components/atoms/inputs/SelectInput";
-import {Control, Controller, FieldValues} from "react-hook-form";
+import {Control} from "react-hook-form";
+import ControlledSelectInput
+    from "@/app/components/atoms/inputs/controlled/controlled-select-input/ControlledSelectInput";
 
 type MultipleTextInputProps = {
-    control :  Control<FieldValues> | undefined,
-    options : string[],
-    inputDataList: InputData[]
-    onChange: (value: string, index: number) => void,
+    control: Control<any> | undefined,
+    options: string[],
+    fields : any[]
+    name: string,
     className?: string,
 }
 
@@ -21,24 +21,13 @@ const MultipleSelectCol = (props: MultipleTextInputProps) => {
 
     return (
         <div className={cn(classValues)}>
-            {
-                props.inputDataList.map((inputData, index) =>
-                    <Controller
-                        control={props.control}
-                        render={({field: {onChange}}) => (<SelectInput
-                                options={props.options}
-                                value={inputData.value}
-                                onChange={(value: string) => {
-                                    onChange(value)
-                                    props.onChange(value, index)
-                                }}
-                                placeholder={"Enter your first name"}
-                            />)
-                        }
-                        name={inputData.name}
-                    />
-                )
-            }
+            {props.fields.map((_, index) =>
+                <ControlledSelectInput
+                    placeholder={'Pick employee which will be added to journal'}
+                    name={`${props.name}.${index}`}
+                    options={props.options}
+                />
+            )}
         </div>
     );
 };

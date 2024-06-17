@@ -16,8 +16,8 @@ type CreateJournalStepWrapperProps = {
 
 const CreateJournalStepWrapper = (
     {
-        children, onSubmit,
-        buttonText = "Next step"
+        children, onSubmit, onClick,
+        buttonText = "Next step",
     }: CreateJournalStepWrapperProps
 ) => {
 
@@ -34,7 +34,8 @@ const CreateJournalStepWrapper = (
                         text={"Back"}
                     />
                     <Button
-                        type={"submit"}
+                        type={onClick ? 'button' : 'submit'}
+                        onClick={() => onClick?.()}
                         text={buttonText}
                     />
                 </div>

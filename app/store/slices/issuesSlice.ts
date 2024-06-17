@@ -1,6 +1,6 @@
 import {Issue} from "@/app/types/issue";
 import {Exception} from "@/app/types/entities";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {StateCreator} from "zustand";
 
 type FirstStepData = {

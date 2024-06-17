@@ -8,6 +8,7 @@ import React from "react";
 import GridBlock from "@/app/components/wrappers/blocks/grid-block/GridBlock";
 import JournalCard from "@/app/components/organisms/cards/journal-card/JournalCard";
 import DeletePopup, {ItemData} from "@/app/components/organisms/popups/delete-popup/DeletePopup";
+import LinkButton from "@/app/components/atoms/buttons/LinkButton";
 
 const JournalsPage = () => {
 
@@ -39,8 +40,8 @@ const JournalsPage = () => {
             }
             <div className={"w-full px-[215px] flex flex-col gap-[30px]"}>
                 <GridBlock>
-                    <Button
-                        onClick={handleCreateJournal}
+                    <LinkButton
+                        href={"/home/journals/new-journal/step-1"}
                         className={"col-span-3"}
                         icon={<FiPlus size={"18px"}/>}
                         text={"Add journal"}

@@ -1,5 +1,5 @@
 import {StateCreator} from "zustand";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {Exception, Journal, JournalCard} from "@/app/types/entities";
 import {CreateJournalSlice} from "@/app/store/slices/createJournalSlice";
 

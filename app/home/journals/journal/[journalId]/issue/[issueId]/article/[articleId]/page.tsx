@@ -25,7 +25,7 @@ const ArticleHeaderRow = ({article, textBlocksCount, illustrationBlocksCount, on
     onSubmit: () => void
 }) => {
 
-    const router : AppRouterInstance = useRouter()
+    const router: AppRouterInstance = useRouter()
     const handleBackClick = () => router.back()
 
     return (
@@ -116,7 +116,7 @@ const ArticlePage = ({params}: {
                                                 onClear={() => handleClearInput(item.id)}
                                                 onAddText={() => handleAddText(item.id)}
                                                 onAddIllustration={() => handleAddIllustration(item.id)}
-                                                onChange={(e) => handleInputChange(e,item.id)}
+                                                onChange={(e) => handleInputChange(e, item.id)}
                                                 articleItem={item}/>
                                     }
                                 )

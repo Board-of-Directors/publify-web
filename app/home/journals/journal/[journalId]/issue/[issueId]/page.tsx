@@ -7,12 +7,22 @@ import ArticleTable from "@/app/components/organisms/tables/article-table/Articl
 import Button from "@/app/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import Text from "@/app/components/atoms/text/Text";
+import Link from "next/link";
+import {usePathname} from "next/navigation";
+import {useRole} from "@/app/utils/useRole";
 
 const IssuePage = ({params}: {
     params: {
         issueId: number
     }
 }) => {
+
+    const pathname = usePathname();
+    const {isOwner} = useRole();
+
+    const lastIndexOfIssuePrefix = pathname.lastIndexOf('issue/');
+    const prevPathname = pathname.substring(0, lastIndexOfIssuePrefix);
+    const editorPathname = prevPathname.concat(`/issue/editor/${params.issueId}`);
 
     const {
         handleBackClick, handleArticleCreate,
@@ -26,10 +36,12 @@ const IssuePage = ({params}: {
                     header={issue && issue.title}
                     onBackClick={handleBackClick}
                     leftContent={
-                        <Text
-                            text={`${articles?.length} articles`}
-                            className={"text-[16px] text-text-gray"}
-                        />
+                        isOwner ? (<Link
+                            className={"text-[16px] text-text-gray hover:text-blue-400"}
+                            href={editorPathname}
+                        >
+                            Switch to Editor mode
+                        </Link>) : null
                     }
                 >
                     <Button
@@ -39,9 +51,7 @@ const IssuePage = ({params}: {
                         onClick={handleArticleCreate}
                     />
                 </HeaderBackRow>
-                {
-                    articles && <ArticleTable articles={articles}/>
-                }
+                {articles && <ArticleTable articles={articles}/>}
             </div>
         </>
     );

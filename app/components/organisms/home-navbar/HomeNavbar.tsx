@@ -33,7 +33,13 @@ const NavbarTabList = () => {
 const HomeNavbar = () => {
 
     const router: AppRouterInstance = useRouter()
+
     const handleLogoClick = () => router.push("/home/journals")
+
+    const handleLogout = () => {
+        localStorage.removeItem('ACCESS_TOKEN');
+        router.push('/');
+    }
 
     return (
         <div className={"sticky top-0 z-20 w-full bg-white px-[215px]"}>
@@ -45,7 +51,7 @@ const HomeNavbar = () => {
                 <HomeNavbarTab
                     text={"Logout"}
                     icon={<FiLogOut size={"18px"}/>}
-                    onClick={() => router.push("/")}
+                    onClick={handleLogout}
                     className={"hover:text-info-red"}
                 />
             </div>

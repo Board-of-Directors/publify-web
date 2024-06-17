@@ -3,17 +3,24 @@
 import TextInput from "@/app/components/atoms/inputs/TextInput";
 import CreateJournalStepWrapper
     from "@/app/components/wrappers/layout/create-journal-step-wrapper/CreateJournalStepWrapper";
-import {useCreateJournalFirstStep} from "@/app/home/journals/new-journal/step-1/page.hooks";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {useRouter} from "next/navigation";
+import {useFormContext} from "react-hook-form";
+import {AddJournalData} from "@/app/schemas/AddJournalSchema";
 
 const CreateJournalFirstStepPage = () => {
 
-    const {
-        register,
-        errors, handleSubmit
-    } = useCreateJournalFirstStep()
+    const router: AppRouterInstance = useRouter()
+    const {register, formState: {errors}, trigger} = useFormContext<AddJournalData>();
+
+    const handleTriggerForm = async () => {
+        if (await trigger(['name', 'description'])) {
+            router.push("/home/journals/new-journal/step-2");
+        }
+    }
 
     return (
-        <CreateJournalStepWrapper onSubmit={handleSubmit}>
+        <CreateJournalStepWrapper onClick={handleTriggerForm}>
             <TextInput
                 label={"Journal name"}
                 register={register("name")}

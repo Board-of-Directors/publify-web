@@ -162,7 +162,7 @@ const EditorIssuePage = ({params}: {
 
     return (
         <>
-            <ArticleHeaderRow name={"Tyler, the Creator"}/>
+            <ArticleHeaderRow name={context.issue.title}/>
             <div className={"w-full px-[215px] flex mb-[30px] flex-col gap-[30px]"}>
                 <GridBlock>
 

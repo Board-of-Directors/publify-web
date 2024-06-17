@@ -1,4 +1,4 @@
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {StateCreator} from "zustand";
 import {Employee, Exception} from "@/app/types/entities";
 import {AuthorizationSlice} from "@/app/store/slices/authorizationSlice";
