@@ -15,13 +15,24 @@ import StarterKit from "@tiptap/starter-kit";
 import {Underline} from "@tiptap/extension-underline";
 import {Highlight} from "@tiptap/extension-highlight";
 import {BubbleMenu} from "@tiptap/extension-bubble-menu";
-import {IssueBlock} from "@/app/types/IssueBlock";
 import {Heading} from "@tiptap/extension-heading";
 import {Paragraph} from "@tiptap/extension-paragraph";
 import {useStore} from "@/app/store/useStore";
 import {useShallow} from "zustand/react/shallow";
 import {useQuery} from "react-query";
 import Text from "@/app/components/atoms/text/Text";
+import {useUnit} from "effector-react";
+import {
+    getIssueLayoutEvent
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-issue-layout";
+import {
+    $articleBlocks
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-article-items";
+import {ArticleBlock} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/types/ArticleLayout.types";
+import {Article} from "@/app/types/article";
+import {
+    createArticleBlockEvent
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.create-article-layout";
 
 const EditableHeading = Heading.extend({
     addAttributes() {
@@ -53,8 +64,9 @@ const EditableParagraph = Paragraph.extend({
     },
 })
 
-const HTMLIssueBlock = ({issueBlock, issueId}: { issueBlock: IssueBlock, issueId: number }) => {
+const HTMLIssueBlock = ({articleBlock, issueId}: { articleBlock: ArticleBlock, issueId: number }) => {
 
+    const {layout} = articleBlock;
     const issueConfig = useStore(state => state.config)
 
     const [issue, getIssue] = useStore(useShallow(
@@ -87,78 +99,70 @@ const HTMLIssueBlock = ({issueBlock, issueId}: { issueBlock: IssueBlock, issueId
 
     const editor = useEditor({
         extensions: extensions,
-        content: issueBlock.content,
+        content: articleBlock.content,
         editable: false
     })
 
+    /*
     useEffect(() => {
         editor?.chain()
             .selectAll()
-            .updateAttributes('heading', {class: issueBlock.textStyles.heading})
-            .updateAttributes('paragraph', {class: issueBlock.textStyles.paragraph})
+            .updateAttributes('heading', {class: layout.textStyles.heading})
+            .updateAttributes('paragraph', {class: layout.textStyles.paragraph})
             .run()
-    }, [issueBlock.textStyles.heading, issueBlock.textStyles.paragraph])
+    }, [layout.textStyles.heading, layout.textStyles.paragraph])
 
     useEffect(() => {
         editor?.chain()
             .selectAll()
-            .updateAttributes('heading', {class: issueBlock.fontStyles.heading})
-            .updateAttributes('paragraph', {class: issueBlock.fontStyles.paragraph})
+            .updateAttributes('heading', {class: articleBlock.fontStyles.heading})
+            .updateAttributes('paragraph', {class: articleBlock.fontStyles.paragraph})
             .run()
-    }, [issueBlock.fontStyles.heading, issueBlock.fontStyles.paragraph])
+    }, [layout.fontStyles.heading, layout.fontStyles.paragraph])
+     */
 
     if (getIssueQuery.isSuccess) return (
         <CardWrapper className={`col-span-8`}>
             <div
                 style={{
-                    columnWidth: 600 / issueBlock.cols,
+                    columnWidth: 600 / layout.columnCount,
                     padding: issueConfig.padding
                 }}
             >
-                {
-                    issueConfig.header && <div className={"w-full flex flex-row justify-between"}>
-                        {
-                            issueData.map((item) => (
-                                <div className={"flex flex-col items-center gap-1"}>
-                                    <Text text={item.header} className={"text-[14px] text-text-gray"}/>
-                                    <Text text={item.text} className={"text-[16px] text-text-black"}/>
-                                </div>
-                            ))
-                        }
-                    </div>
-                }
+                {issueConfig.header && <div className={"w-full flex flex-row justify-between"}>
+                    {issueData.map((item) => (
+                        <div className={"flex flex-col items-center gap-1"}>
+                            <Text text={item.header} className={"text-[14px] text-text-gray"}/>
+                            <Text text={item.text} className={"text-[16px] text-text-black"}/>
+                        </div>
+                    ))}
+                </div>}
                 <EditorContent editor={editor}/>
-                {
-                    issueConfig.footer && <div className={"w-full flex justify-center items-center"}>
-                        <Text
-                            text={`#1 page`}
-                            className={"text-[16px] text-text-black"}
-                        />
-                    </div>
-                }
+                {issueConfig.footer && <div className={"w-full flex justify-center items-center"}>
+                    <Text className={"text-[16px] text-text-black"} text={`#1 page`}/>
+                </div>}
             </div>
         </CardWrapper>
     )
 
 }
 
-const EditorIssuePage = ({params}: {
+const EditorIssuePage = ({params: {issueId}}: {
     params: {
         issueId: number
     }
 }) => {
 
-    const context = useEditorIssuePage(params.issueId)
+    const context = useEditorIssuePage(issueId);
+    const [articleBlocks, createArticleBlock, getIssueLayout] = useUnit([$articleBlocks, createArticleBlockEvent, getIssueLayoutEvent]);
 
-    if (context.getIssueQuery.isLoading) {
-        if (context.getArticlesQuery.isLoading) {
-            return (
-                <div>
-                    Page is loading..
-                </div>
-            )
-        }
+    const handleAddArticle = (article: Article) => {
+        createArticleBlock({issueId: issueId, articleId: article.id});
     }
+
+    useEffect(() => {
+        getIssueLayout(issueId);
+    }, []);
 
     return (
         <>
@@ -171,19 +175,14 @@ const EditorIssuePage = ({params}: {
                         alt={"/"}
                     />
                     <ArticleCoverSider/>
-                    {
-                        context.issueBlocks.map((issueBlock) => (
-                            <GridBlock className={"col-span-full"}>
-                                <HTMLIssueBlock
-                                    issueBlock={issueBlock}
-                                    issueId={params.issueId}
-                                />
-                                <HTMLIssueBlockSider issueBlock={issueBlock}/>
-                            </GridBlock>
-                        ))
-                    }
+                    {articleBlocks.map((articleBlock, index) => (
+                        <GridBlock className={"col-span-full"} key={index}>
+                            <HTMLIssueBlock articleBlock={articleBlock} issueId={issueId}/>
+                            <HTMLIssueBlockSider articleLayout={articleBlock.layout} issueId={issueId}/>
+                        </GridBlock>
+                    ))}
                     <EditorAddArticleBlock
-                        onAddArticle={context.handleAddIssueBlock}
+                        onAddArticle={handleAddArticle}
                         onAddTableOfContent={() => console.log("TABLE OF CONTENTS")}
                         onAddAdvertisementPage={() => console.log("ADVERTISEMENT PAGE")}
                         articles={context.availableArticles}

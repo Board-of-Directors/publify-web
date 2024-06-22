@@ -11,7 +11,7 @@ export const useRole = () => {
 
     return {
         isCopyrighter, isIllustrator,
-        isOwner, isEditor
+        isOwner, isEditor, role : jwt.role
     }
 
 }

@@ -7,7 +7,7 @@ import React from "react";
 
 export type SelectItem = {
     name: string,
-    action : () => void
+    action ?: () => void
 }
 
 type SelectButtonClassNames = {
@@ -46,7 +46,7 @@ const SelectButton = ({items, classNames, selectedItem, onSelect}: {
                     return <div
                         onClick={() => {
                             onSelect(item)
-                            item.action()
+                            item.action?.()
                         }}
                         className={cn(defaultItemCV, curItemCV)}
                     >

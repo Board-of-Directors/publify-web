@@ -79,7 +79,7 @@ export const useEditArticlePage = (articleId: number) => {
 
     const handleAddText = (articleId: number) => {
         const newItem: ArticleItem = {
-            id: blocks.length, contentType: "text",
+            contentType: "text",
             content: "<p>Enter some text..</p>",
             sequenceNumber: blocks.length
         }

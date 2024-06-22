@@ -19,7 +19,7 @@ const getLinkedIssues = async (issueId : number) : Promise<ArticleGroup[]> => {
         .then(response => response.data.result)
 };
 
-const getLinkedIssuesFx = createEffect<number, ArticleGroup[], Error>(getLinkedIssues);
+export const getLinkedIssuesFx = createEffect<number, ArticleGroup[], Error>(getLinkedIssues);
 export const getLinkedIssuesEvent = createEvent<number>();
 export const $linkedIssues = createStore<ArticleGroup[]>([]);
 
