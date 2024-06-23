@@ -10,6 +10,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
 import SelectButton from "@/app/components/atoms/buttons/select-button/SelectButton";
 import Button from "@/app/components/atoms/buttons/button/Button";
+import {useRouter} from "next/navigation";
 
 const EditorIssueSettingsPage = ({params}: {
     params: {
@@ -17,22 +18,15 @@ const EditorIssueSettingsPage = ({params}: {
     }
 }) => {
 
+    const router = useRouter();
     const context = useEditorSettingsPage(params.issueId)
-
-    if (context.getIssueQuery.isLoading) {
-        return (
-            <div>
-                Page is loading..
-            </div>
-        )
-    }
 
     const rowWrapperCV: ClassValue[] = [
         "w-full flex flex-row items-center pb-5 border-b-2",
         "border-background justify-between"
     ]
 
-    if (context.getIssueQuery.isSuccess) return (
+    return (
 
         <div className={"w-full px-[215px] flex mb-[30px] flex-col gap-[30px]"}>
 
@@ -81,7 +75,10 @@ const EditorIssueSettingsPage = ({params}: {
 
             <Button
                 text={"Save changes"}
-                onClick={context.handleSaveChanges}
+                onClick={() => {
+                    context.handleSaveChanges();
+                    router.back();
+                }}
                 className={"w-[300px]"}
             />
 

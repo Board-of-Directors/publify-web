@@ -28,11 +28,11 @@ const IssueCardV2 = ({issue, className, onDelete, onClick, isInteractive = true}
     const handleButtonClick = () => {
         if (onClick) return;
 
-        const jwt = jwtDecode(localStorage.getItem('ACCESS_TOKEN')!!) as any;
+        const jwt = jwtDecode(sessionStorage.getItem('ACCESS_TOKEN')!!) as any;
         if (jwt.role !== 'EDITOR') {
             router.push(pathName.concat(`/issue/${issue.id}`))
         } else {
-            router.push(pathName.concat(`/editor/issue/${issue.id}`));
+            router.push(pathName.concat(`/issue/editor/${issue.id}`));
         }
     }
 

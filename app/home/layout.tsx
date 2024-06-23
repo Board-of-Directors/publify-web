@@ -13,7 +13,7 @@ const UserRoleCard = () => {
     const {role} = useRole();
 
     return (
-        <section className={'fixed right-5 bottom-5 z-30 bg-white rounded-xl shadow-xl shadow-gray-400/30 p-5 flex flex-row items-baseline gap-5'}>
+        <section className={'fixed left-5 bottom-5 z-30 bg-white rounded-xl shadow-xl shadow-gray-400/30 p-5 flex flex-row items-baseline gap-5'}>
             <Text text={'Your current role'} className={'text-sm text-text-gray'}/>
             <Text text={role} className={'text-md text-text-black font-semibold'}/>
         </section>

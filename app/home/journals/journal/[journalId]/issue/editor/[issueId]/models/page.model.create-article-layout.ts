@@ -26,5 +26,11 @@ sample({
 
 sample({
     clock : createArticleBlockFx.doneData,
-    target : [getLinkedIssuesFx, getIssueLayoutFx]
+    target : getIssueLayoutFx
+})
+
+sample({
+    clock : createArticleBlockFx.doneData,
+    fn : (issueId) => ({issueId : issueId}),
+    target : getLinkedIssuesFx
 })

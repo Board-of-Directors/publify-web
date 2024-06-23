@@ -37,7 +37,7 @@ const HomeNavbar = () => {
     const handleLogoClick = () => router.push("/home/journals")
 
     const handleLogout = () => {
-        localStorage.removeItem('ACCESS_TOKEN');
+        sessionStorage.removeItem('ACCESS_TOKEN');
         router.push('/');
     }
 

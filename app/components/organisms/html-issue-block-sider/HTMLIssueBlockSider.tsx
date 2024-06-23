@@ -48,7 +48,7 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
     const context = useHTMLIssueBlockSider()
     const [changeArticleBlock, deleteArticleLayout] = useUnit([changeArticleBlockEvent, deleteArticleLayoutEvent]);
 
-    const [heading, paragraph] = [articleLayout.fonts[0], articleLayout.fonts[3]];
+    const [heading, paragraph] = articleLayout.fonts;
 
     const headingSelect = {
         itemType : {id: heading.id, name : heading.fontType},
@@ -103,7 +103,7 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
     }
 
     const handleChangeHeading = (mode : string, fontName ?: string, fontType ?: string) => {
-        const indexToChange = mode === 'heading' ? 0 : 3
+        const indexToChange = mode === 'heading' ? 0 : 1;
 
         changeArticleBlock({
             issueId : issueId,

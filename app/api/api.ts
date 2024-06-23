@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {jwtDecode} from "jwt-decode";
 
 export const api = axios.create({
@@ -14,29 +14,23 @@ const revalidateToken = async () => {
         })
 
     if (response.data.result !== null) {
-        localStorage.setItem("ACCESS_TOKEN", response.data.result.accessToken);
+        sessionStorage.setItem("ACCESS_TOKEN", response.data.result.accessToken);
     } else console.log("REFRESH ERROR", response.data.exception?.message);
 }
 
 api.interceptors.request.use(config => {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN")
+    const accessToken = sessionStorage.getItem("ACCESS_TOKEN")
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`
     }
     return config
-})
+});
 
-api.interceptors.response.use(async (config) => {
-    const response = config.data.exception?.message;
-    if (response === 'Токен входа не найден') {
-        await revalidateToken();
-        return api(config);
-    } return Promise.resolve(config);
-}, async (error) => {
+api.interceptors.response.use(config => config, async (error) => {
     const originalRequest = error.config
     if (error.response?.status === 403 && !originalRequest._retry) {
         originalRequest._retry = true
         await revalidateToken();
         return api(originalRequest)
-    } else return Promise.reject(error)
-})
+    } else return Promise.reject(error.response.data.exception.message);
+});

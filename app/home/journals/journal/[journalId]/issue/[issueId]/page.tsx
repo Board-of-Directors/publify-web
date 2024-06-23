@@ -51,7 +51,7 @@ const IssuePage = ({params}: {
                         onClick={handleArticleCreate}
                     />
                 </HeaderBackRow>
-                {articles && <ArticleTable articles={articles}/>}
+                {articles && <ArticleTable exclude={false}/>}
             </div>
         </>
     );

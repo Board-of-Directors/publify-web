@@ -14,13 +14,18 @@ export type ArticleGroup = {
     articles: IssueGroupItem[]
 }
 
-const getLinkedIssues = async (issueId : number) : Promise<ArticleGroup[]> => {
-    return api.get('/article/search-with-linked', {params : {issueId :issueId}})
+export type GetLinkedIssuesData = {
+    issueId : number,
+    excludeImported ?: boolean
+}
+
+const getLinkedIssues = async (req : GetLinkedIssuesData) : Promise<ArticleGroup[]> => {
+    return api.get('/article/search-with-linked', {params : req})
         .then(response => response.data.result)
 };
 
-export const getLinkedIssuesFx = createEffect<number, ArticleGroup[], Error>(getLinkedIssues);
-export const getLinkedIssuesEvent = createEvent<number>();
+export const getLinkedIssuesFx = createEffect<GetLinkedIssuesData, ArticleGroup[], Error>(getLinkedIssues);
+export const getLinkedIssuesEvent = createEvent<GetLinkedIssuesData>();
 export const $linkedIssues = createStore<ArticleGroup[]>([]);
 
 $linkedIssues.on(getLinkedIssuesFx.doneData, (_, group) => group);

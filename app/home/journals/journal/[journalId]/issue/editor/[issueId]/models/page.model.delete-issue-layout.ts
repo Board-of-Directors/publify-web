@@ -27,5 +27,11 @@ sample({
 
 sample({
     clock : deleteArticleLayoutFx.doneData,
-    target : [getLinkedIssuesFx, getIssueLayoutFx]
+    target : getIssueLayoutFx
+})
+
+sample({
+    clock : deleteArticleLayoutFx.doneData,
+    fn : (issueId) => ({issueId : issueId}),
+    target : getLinkedIssuesFx
 })

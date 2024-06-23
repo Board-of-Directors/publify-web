@@ -36,7 +36,7 @@ const ChooseIssuePopup = (props: PopupProps) => {
     const handleImportIssues = () => {
         importIssues({issueId : +issueId, linkedIssues : selectedIssues.map(issue => issue.id)})
             .then(_ => {
-                getLinkedIssues(+issueId);
+                getLinkedIssues({issueId : +issueId});
                 props.onClose()
             });
     }

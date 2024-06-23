@@ -44,10 +44,9 @@ export const useSecondStepContext = () => {
 
     const onSubmit = (data: FieldValues) => {
         fillSecondStep(data as SecondStepData)
-        registerOrganization().then((exception) => {
-            if (exception !== null) setException((exception as Exception).message)
-            else router.push("/sign-up/step-3")
-        })
+        registerOrganization()
+            .then(_ => router.push("/sign-up/step-3"))
+            .catch(setException)
     }
 
     return {

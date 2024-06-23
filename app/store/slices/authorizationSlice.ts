@@ -55,19 +55,15 @@ export const authorizationSlice: StateCreator<AuthorizationSlice, [], [], Author
     loginUser: async (loginData: LoginData) => {
         return api.post("/login", loginData)
             .then((response) => {
-                localStorage.setItem('ACCESS_TOKEN', response.data.result.accessToken);
-                return response.data.exception as Exception
+                sessionStorage.setItem('ACCESS_TOKEN', response.data.result.accessToken);
             })
-            .catch((error) => console.log(error))
     },
 
     registerOrganization: async () => {
         return api.post("/registration", get().organization)
             .then((response) => {
-                localStorage.setItem('ACCESS_TOKEN', response.data.result.accessToken);
-                return response.data.exception as Exception
+                sessionStorage.setItem('ACCESS_TOKEN', response.data.result.accessToken);
             })
-            .catch((error) => console.log(error))
     }
 
 })

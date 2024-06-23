@@ -4,7 +4,6 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useStore} from "@/app/store/useStore";
 import {LoginData} from "@/app/store/slices/authorizationSlice";
 import {useState} from "react";
-import {Exception} from "@/app/types/entities";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {useRouter} from "next/navigation";
 
@@ -34,13 +33,9 @@ export const useLogInContext = () => {
     })
 
     const onSubmit = (data: FieldValues) => {
-        console.log(data)
         loginUser(data as LoginData)
-            .then((exception) => {
-                if (exception !== null) {
-                    setException((exception as Exception).message)
-                } else router.push("/home/journals")
-            })
+            .then(_ => router.push("/home/journals"))
+            .catch(setException)
     }
 
     return {

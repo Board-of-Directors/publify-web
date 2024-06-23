@@ -2,7 +2,7 @@ import {jwtDecode} from "jwt-decode";
 
 export const useRole = () => {
 
-    const jwt = jwtDecode(localStorage.getItem("ACCESS_TOKEN")!!) as any;
+    const jwt = jwtDecode(sessionStorage.getItem("ACCESS_TOKEN")!!) as any;
 
     const isCopyrighter = jwt.role === 'COPYRIGHTER';
     const isIllustrator = jwt.role === 'ILLUSTRATOR';

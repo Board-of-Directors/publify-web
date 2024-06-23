@@ -20,11 +20,12 @@ import {useGetIssueId} from "@/app/utils/hooks/useGetIssueId";
 
 type ArticleTableProps = {
     editable?: boolean,
+    exclude ?: boolean,
     onArticleClick?: (article: Article) => void,
     className?: string
 }
 
-const ArticleTable = ({editable = true, ...props}: ArticleTableProps) => {
+const ArticleTable = ({editable = true, exclude = true, ...props}: ArticleTableProps) => {
 
     const issueId = useGetIssueId();
     const [chooseIssuePopupOpen, toggleOpenPopup] = useToggle();
@@ -41,7 +42,7 @@ const ArticleTable = ({editable = true, ...props}: ArticleTableProps) => {
     ]
 
     useEffect(() => {
-        getLinkedIssues(+issueId);
+        getLinkedIssues({issueId : +issueId, excludeImported : exclude});
     }, []);
 
     return (
