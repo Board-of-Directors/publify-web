@@ -17,7 +17,7 @@ const ArticleBlock = ({articleItem, onAddIllustration, onAddText, onDelete, onCh
     onAddIllustration : () => void,
     onAddText : () => void,
     onDelete : () => void,
-    onChange : (state : string, curSeqNumber : number) => void
+    onChange : (state : string) => void
 }) => {
 
     const editorCV: ClassValue[] = [
@@ -37,7 +37,7 @@ const ArticleBlock = ({articleItem, onAddIllustration, onAddText, onDelete, onCh
             }
         },
         onUpdate : ({editor}) => {
-            onChange(editor.getHTML(), articleItem.id)
+            onChange(editor.getHTML())
         },
     })
 
@@ -49,7 +49,7 @@ const ArticleBlock = ({articleItem, onAddIllustration, onAddText, onDelete, onCh
 
     return (
         <DraggableCardWrapper
-            id={articleItem.id}
+            id={articleItem.itemId}
             onAddText={onAddText}
             onAddIllustration={onAddIllustration}
         >

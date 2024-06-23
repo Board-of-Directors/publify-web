@@ -48,7 +48,7 @@ const JournalsPage = () => {
                     />
                     <TextInput
                         wrapperClassName={"col-span-9"}
-                        placeholder={"Type name of the company"}
+                        placeholder={"Type name of the journal"}
                         icon={<FiSearch size={"18px"} className={"stroke-text-gray"}/>}
                         onChange={setJournalName}
                         value={journalName}

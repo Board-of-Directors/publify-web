@@ -6,9 +6,11 @@ import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-
 import Logo from "@/app/components/svg/logo/Logo";
 import {FiLogOut} from "react-icons/fi";
 import HomeNavbarTab from "@/app/components/moleculas/home-navbar-tab/HomeNavbarTab";
+import {useRole} from "@/app/utils/hooks/useRole";
 
 const NavbarTabList = () => {
 
+    const {isOwner} = useRole();
     const router = useRouter()
     const pathName = usePathname()
 
@@ -21,11 +23,11 @@ const NavbarTabList = () => {
                 isActive={pathName.includes("journals")}
                 onClick={() => handleTabClick("journals")}
             />
-            <HomeNavbarTab
+            {isOwner ? <HomeNavbarTab
                 text={"Organization"}
                 isActive={pathName.includes("organization-settings")}
                 onClick={() => handleTabClick("organization-settings")}
-            />
+            /> : null}
         </div>
     )
 }

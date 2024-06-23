@@ -39,7 +39,7 @@ const ArticleIllustrationBlock = (props: ArticleIllustrationBlockProps) => {
 
     return (
         <DraggableCardWrapper
-            id={props.articleItem.id}
+            id={props.articleItem.itemId}
             onAddText={props.onAddText}
             onAddIllustration={props.onAddIllustration}
         >

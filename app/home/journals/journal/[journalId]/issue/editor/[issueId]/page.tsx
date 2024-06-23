@@ -12,6 +12,13 @@ import {Article} from "@/app/types/article";
 import {createArticleBlockEvent} from "./models/page.model.create-article-layout";
 import CollaborativeEditingProvider from "@/app/components/providers/CollaborativeEditingProvider";
 import ArticleBlocks from "./ui/ArticleBlocks";
+import CollaborativeCursors from "./ui/CollaborativeCursors";
+import {
+    getTableOfContentEvent
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-table-of-content";
+import {
+    createTableOfContentEvent
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.create-table-of-content";
 
 const EditorIssuePage = ({params: {issueId}}: {
     params: {
@@ -21,17 +28,24 @@ const EditorIssuePage = ({params: {issueId}}: {
 
     const context = useEditorIssuePage(issueId);
     const [createArticleBlock, getIssueLayout] = useUnit([createArticleBlockEvent, getIssueLayoutEvent]);
+    const [getTableOfContent, createTableOfContent] = useUnit([getTableOfContentEvent, createTableOfContentEvent]);
 
     const handleAddArticle = (article: Article) => {
         createArticleBlock({issueId: issueId, articleId: article.id});
     }
 
+    const handleAddTableOfContent = () => {
+        createTableOfContent(issueId);
+    }
+
     useEffect(() => {
+        getTableOfContent(issueId);
         getIssueLayout(issueId);
     }, []);
 
     return (
         <CollaborativeEditingProvider issueId={issueId}>
+            <CollaborativeCursors/>
             <ArticleHeaderRow name={context.issue.title}/>
             <div className={"w-full px-[215px] flex mb-[30px] flex-col gap-[30px]"}>
                 <GridBlock>
@@ -44,7 +58,7 @@ const EditorIssuePage = ({params: {issueId}}: {
                     <ArticleBlocks issueId={issueId}/>
                     <EditorAddArticleBlock
                         onAddArticle={handleAddArticle}
-                        onAddTableOfContent={() => console.log("TABLE OF CONTENTS")}
+                        onAddTableOfContent={handleAddTableOfContent}
                         articles={context.availableArticles}
                     />
                 </GridBlock>
