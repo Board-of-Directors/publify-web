@@ -1,8 +1,18 @@
-export type Role = "Illustrator" | "Copyrighter" | "Editor"
+export type Role = "Illustrator" | "Copyrighter" | "Editor" | "Owner"
 
 export type Employee = {
     email : string,
-    role : Role
+    role : Role,
+    id : number,
+    organizationId : number
+}
+
+export type Credentials = {
+    email : string,
+    role : Role,
+    id : number,
+    organizationId : number,
+    organizationName : string
 }
 
 export enum IssueStatus {

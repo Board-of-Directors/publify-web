@@ -1,4 +1,4 @@
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {StateCreator} from "zustand";
 import {Employee, Exception} from "@/app/types/entities";
 import {AuthorizationSlice} from "@/app/store/slices/authorizationSlice";
@@ -16,7 +16,7 @@ export const employeeSlice : StateCreator<EmployeeSlice & AuthorizationSlice, []
     inviteUsers : async (data : Employee[]) => {
         return api.post("/invite", data, {
             params : {
-                organizationId : localStorage.getItem("ORGANIZATION_ID")
+                organizationId : sessionStorage.getItem("ORGANIZATION_ID")
             }
         })
             .then((response) => {
@@ -29,7 +29,7 @@ export const employeeSlice : StateCreator<EmployeeSlice & AuthorizationSlice, []
     getEmployees : async () => {
         api.get('/employee', {
             params : {
-                organizationId : localStorage.getItem("ORGANIZATION_ID")
+                organizationId : sessionStorage.getItem("ORGANIZATION_ID")
             }
         }).then((response) => {
             if (response.data.exception == null) {

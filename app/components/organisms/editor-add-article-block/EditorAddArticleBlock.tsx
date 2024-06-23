@@ -5,12 +5,12 @@ import Button from "@/app/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
+import {Client} from "@stomp/stompjs";
 
 type EditorAddArticleBlockProps = {
     articles : Article[],
     onAddArticle : (article : Article) => void,
     onAddTableOfContent : () => void,
-    onAddAdvertisementPage : () => void
 }
 
 const EditorAddArticleBlock = (props : EditorAddArticleBlockProps) => {
@@ -23,24 +23,15 @@ const EditorAddArticleBlock = (props : EditorAddArticleBlockProps) => {
 
     return (
         <div className={"col-span-8 flex flex-col gap-[20px]"}>
-            <div className={"flex flex-row items-center gap-[20px]"}>
-                <Button
-                    icon={<FiPlus size={"18px"}/>}
-                    className={cn(buttonCV)}
-                    onClick={props.onAddTableOfContent}
-                    text={"Add table of contents"}
-                />
-                <Button
-                    icon={<FiPlus size={"18px"}/>}
-                    className={cn(buttonCV)}
-                    onClick={props.onAddAdvertisementPage}
-                    text={"Add advertisement page"}
-                />
-            </div>
+            <Button
+                icon={<FiPlus size={"18px"}/>}
+                className={cn(buttonCV)}
+                onClick={props.onAddTableOfContent}
+                text={"Add table of contents"}
+            />
             <ArticleTable
-                editable={false}
                 onArticleClick={props.onAddArticle}
-                articles={props.articles}
+                editable={false}
             />
         </div>
     );

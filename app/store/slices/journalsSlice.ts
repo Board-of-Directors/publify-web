@@ -1,5 +1,5 @@
 import {StateCreator} from "zustand";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {Exception, Journal, JournalCard} from "@/app/types/entities";
 import {CreateJournalSlice} from "@/app/store/slices/createJournalSlice";
 
@@ -10,7 +10,7 @@ export type JournalsSlice = {
 
     fillPartialData : (data : Journal) => void,
 
-    searchJournals: (journalName ?: string) => void,
+    searchJournals: (organizationId : number, journalName ?: string) => void,
     getJournal: (journalId: number) => Promise<Exception | void>,
     createJournal: (journal: Journal) => Promise<number | void>,
     deleteJournal: (journalId: number) => Promise<Exception | void>,
@@ -52,10 +52,11 @@ export const journalsSlice: StateCreator<JournalsSlice & CreateJournalSlice, [],
             })
     },
 
-    searchJournals: async (journalName) => {
+    searchJournals: async (journalName, organizationId) => {
         api.get("/journal/search", {
             params: {
-                name: journalName
+                name: journalName,
+                organizationId : organizationId
             }
         })
             .then((response) => {

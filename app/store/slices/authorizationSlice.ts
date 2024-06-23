@@ -1,5 +1,5 @@
 import {StateCreator} from "zustand";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 import {Exception} from "@/app/types/entities";
 
 export type LoginData = {
@@ -55,21 +55,15 @@ export const authorizationSlice: StateCreator<AuthorizationSlice, [], [], Author
     loginUser: async (loginData: LoginData) => {
         return api.post("/login", loginData)
             .then((response) => {
-                const organizationId = response.data.result
-                localStorage.setItem("ORGANIZATION_ID", organizationId)
-                return response.data.exception as Exception
+                sessionStorage.setItem('ACCESS_TOKEN', response.data.result.accessToken);
             })
-            .catch((error) => console.log(error))
     },
 
     registerOrganization: async () => {
         return api.post("/registration", get().organization)
             .then((response) => {
-                const organizationId = response.data.result
-                localStorage.setItem("ORGANIZATION_ID", organizationId)
-                return response.data.exception as Exception
+                sessionStorage.setItem('ACCESS_TOKEN', response.data.result.accessToken);
             })
-            .catch((error) => console.log(error))
     }
 
 })

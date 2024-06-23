@@ -6,21 +6,29 @@ import SelectInput from "@/app/components/atoms/inputs/SelectInput";
 import {Employee, Role} from "@/app/types/entities";
 import {FiTrash2} from "react-icons/fi";
 
-type EmailRoleInputProps = {
-    employees: Employee[],
-    setEmployees: (value: Employee[]) => void,
-    classNames?: EmailRoleClassName
-    onDeleteEmployee?: (index: number) => void
+type EmailRoleClassName = {
+    emailWrapper?: string,
+    roleWrapper?: string
 }
 
-const EmailRoleRow = ({employee, setEmployee, classNames, onDeleteEmployee}: {
+type EmailRoleInputProps = {
+    employees: Employee[],
+    setEmployees ?: (value: Employee[]) => void,
+    classNames?: EmailRoleClassName
+    onDeleteEmployee?: (employee: Employee) => void,
+    onChangeEmployee?: (employee: Employee, newRole : string) => void
+}
+
+const EmailRoleRow = ({employee, setEmployee, classNames, onDeleteEmployee, onChangeEmployee}: {
     employee: Employee,
     setEmployee: (employee: Employee) => void,
     classNames?: EmailRoleClassName
-    onDeleteEmployee?: (index: number) => void
+    onDeleteEmployee?: (employee: Employee) => void,
+    onChangeEmployee?: (employee: Employee, newRole : string) => void
 }) => {
 
     const roles = ["Copyrighter", "Illustrator", "Editor"]
+    const employeeRole = employee.role[0].toUpperCase() + employee.role.substring(1).toLowerCase();
 
     const handleChangeEmployee = (email?: string, role?: string) => {
         const newEmployee: Employee = {
@@ -30,8 +38,8 @@ const EmailRoleRow = ({employee, setEmployee, classNames, onDeleteEmployee}: {
         setEmployee(newEmployee)
     }
 
-    return (
-        <div className={"w-full flex flex-row gap-2 justify-between"}>
+    if (employeeRole !== 'Owner') return (
+        <div className={"w-full flex flex-row gap-4 justify-between"}>
             <TextInput
                 value={employee.email}
                 onChange={(email) => handleChangeEmployee(email)}
@@ -39,36 +47,31 @@ const EmailRoleRow = ({employee, setEmployee, classNames, onDeleteEmployee}: {
                 className={classNames?.emailWrapper}
             />
             <SelectInput
-                value={employee.role}
-                onChange={(role) => handleChangeEmployee(undefined, role)}
+                value={employeeRole} className={classNames?.roleWrapper}
+                onChange={(role) => {
+                    if (onChangeEmployee) {
+                        onChangeEmployee(employee, role);
+                    } else {
+                        handleChangeEmployee(undefined, role)
+                    }
+                }}
                 options={roles}
-                className={classNames?.roleWrapper}
             />
             {
                 onDeleteEmployee ? (
-                    <FiTrash2
-                        size={"20px"}
-                        className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
-                        onClick={onDeleteEmployee}
-                    />
+                    <button
+                        className={'size-5 text-text-gray hover:cursor-pointer hover:text-info-red'}
+                        onClick={() => onDeleteEmployee(employee)}
+                    >
+                        <FiTrash2 size={"20px"}/>
+                    </button>
                 ) : null
             }
         </div>
     )
 }
 
-type EmailRoleClassName = {
-    emailWrapper?: string,
-    roleWrapper?: string
-}
-
-const EmailRoleInput = (
-    {
-        employees,
-        setEmployees,
-        classNames
-    }: EmailRoleInputProps
-) => {
+const EmailRoleInput = ({employees, setEmployees, classNames, onDeleteEmployee, onChangeEmployee}: EmailRoleInputProps) => {
 
     const updateEmployees = (index: number, employee: Employee) => {
 
@@ -77,22 +80,21 @@ const EmailRoleInput = (
             return oldEmployee
         })
 
-        setEmployees(newEmployees)
+        setEmployees?.(newEmployees)
 
     }
 
     return (
         <div className={"w-full flex flex-col gap-[16px]"}>
             <div className={"w-full flex flex-col gap-[12px]"}>
-                {
-                    employees.map((employee, index) => (
-                        <EmailRoleRow
-                            employee={employee}
-                            setEmployee={(employee) => updateEmployees(index, employee)}
-                            classNames={classNames}
-                        />
-                    ))
-                }
+                {employees.map((employee, index) => (
+                    <EmailRoleRow
+                        onChangeEmployee={onChangeEmployee}
+                        onDeleteEmployee={onDeleteEmployee}
+                        setEmployee={(employee) => updateEmployees(index, employee)}
+                        employee={employee} classNames={classNames}
+                    />
+                ))}
             </div>
         </div>
     );

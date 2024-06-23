@@ -15,7 +15,7 @@ export type Article = {
 export type ContentType = "text" | "image"
 
 export type ArticleItem = {
-    id : number,
+    id ?: number,
     content : string,
     contentType : ContentType,
     sequenceNumber : number

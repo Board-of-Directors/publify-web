@@ -6,53 +6,51 @@ import TextButton from "@/app/components/atoms/buttons/text-button/TextButton";
 import {FiPlus} from "react-icons/fi";
 import {ClassValue} from "clsx";
 import {cn} from "@/app/utils/cn";
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import HeaderBlock from "@/app/components/wrappers/blocks/header-block/HeaderBlock";
 import MultipleSelectCol from "@/app/components/organisms/multiple-select-col/MultipleSelectCol";
-import {useCreateJournalSecondStep} from "@/app/home/journals/new-journal/step-2/page.hooks";
-import {InputData} from "@/app/types/entities";
+import {useUnit} from "effector-react";
+import {$credentials, getCredentialsFx} from "@/app/home/organization-settings/models/page.model.credentials";
+import {$employees, getAllEmployeesEvent} from "@/app/home/organization-settings/models/page.model.get-employees";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {useRouter} from "next/navigation";
+import {FieldValues, useFieldArray, useFormContext} from "react-hook-form";
+import {AddJournalData} from "@/app/schemas/AddJournalSchema";
+import {createJournalFx} from "@/app/home/journals/new-journal/step-2/page.model.create-journal";
+
+const textButtonStyles: ClassValue[] = [
+    "w-[200px] max-text-w-fit bg-orange-500 text-info-blue-default hover:text-info-blue-hover",
+    "hover:stroke-info-blue-hover"
+]
 
 const CreateJournalSecondStepPage = () => {
 
-    const {
-        handleSubmit,
-        employees,
-        control
-    } = useCreateJournalSecondStep()
+    const router: AppRouterInstance = useRouter()
+    const {handleSubmit, control, reset} = useFormContext<AddJournalData>();
+    const {fields, append, remove} = useFieldArray<AddJournalData>({control: control, name: 'employeeEmails'})
 
-    const options = employees.map(item => item.email)
+    const [employees, getEmployees] = useUnit([ $employees, getAllEmployeesEvent]);
+    const [credentials, getCredentials] = useUnit([$credentials, getCredentialsFx]);
 
-    const textButtonClassValues: ClassValue[] = [
-        "w-[200px] max-text-w-fit bg-orange-500 text-info-blue-default hover:text-info-blue-hover",
-        "hover:stroke-info-blue-hover"
-    ]
+    const createJournal = useUnit(createJournalFx);
 
-    const initialInputData = Array.from({length: 2},
-        (_, index) => {
-            return {name: `input-${index}`, value: ""}
+    const onSubmit = (fieldValues : FieldValues) => {
+        const request = {...fieldValues, organizationId : credentials!!.organizationId};
+
+        createJournal(request as AddJournalData).then((response) => {
+            if (response.exception === null) router.push("/home/journals")
         })
-
-    const [
-        inputData,
-        setInputData
-    ] = useState<InputData[]>(initialInputData)
-
-    const handleAddEmail = () => {
-        if (inputData.length < employees.length) {
-            const newInputName: string = `input_${inputData.length}`
-            setInputData([...inputData, {name: newInputName, value: ""}])
-        }
     }
 
-    const handleInputChange = (value: string, index: number) => {
-        const newValues = inputData.map((inputData, curIndex) => {
-            return curIndex === index ? {value: value, name: inputData.name} : inputData
-        })
-        setInputData(newValues)
-    }
+    useEffect(() => {
+        append([{value : ''}])
+        getCredentials().then((credentials) => {
+            getEmployees(credentials.organizationId);
+        });
+    }, []);
 
     return (
-        <CreateJournalStepWrapper onSubmit={handleSubmit}>
+        <CreateJournalStepWrapper onClick={handleSubmit(onSubmit)}>
             <HeaderBlock
                 classNames={{
                     header: "text-[18px] leading-none",
@@ -63,19 +61,15 @@ const CreateJournalSecondStepPage = () => {
                     <TextButton
                         text={"Add member"}
                         icon={<FiPlus size={"18px"}/>}
-                        className={cn(textButtonClassValues)}
-                        onClick={handleAddEmail}
+                        className={cn(textButtonStyles)}
+                        onClick={() => append({value : ''})}
                     />
                 }
             >
-                {
-                    options && <MultipleSelectCol
-                        control={control}
-                        options={options}
-                        inputDataList={inputData}
-                        onChange={handleInputChange}
-                    />
-                }
+                <MultipleSelectCol
+                    options={employees.map(item => item.email)}
+                    control={control} name={'employeeEmails'} fields={fields}
+                />
             </HeaderBlock>
         </CreateJournalStepWrapper>
     );

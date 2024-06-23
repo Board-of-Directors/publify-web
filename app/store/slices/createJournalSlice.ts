@@ -1,6 +1,6 @@
 import {Exception, Journal} from "@/app/types/entities";
 import {StateCreator} from "zustand";
-import api from "@/app/api/api";
+import {api} from "@/app/api/api";
 
 export type FirstStepData = {
     name: string,
@@ -28,7 +28,7 @@ export const createJournalSlice: StateCreator<CreateJournalSlice, [], [], Create
 
     createJournal: async () => {
 
-        const organizationId = (localStorage.getItem("ORGANIZATION_ID") ?? 0) as number
+        const organizationId = (sessionStorage.getItem("ORGANIZATION_ID") ?? 0) as number
         const journal: Journal = {...get().journal, organizationId: organizationId}
 
         return api.post('/journal', journal)

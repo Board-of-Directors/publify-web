@@ -1,13 +1,14 @@
 import React from 'react';
 import {cn} from "@/app/utils/cn";
 import {ClassValue} from "clsx";
+import Link from "next/link";
 
 export type ButtonProps = {
     text: string
     onClick?: () => void
     type?: "button" | "submit"
     icon?: React.ReactNode
-    className?: Iterable<ClassValue>
+    className?: Iterable<ClassValue>,
 }
 
 const Button = ({onClick, text, type = "button", icon, className}: ButtonProps) => {
@@ -22,8 +23,7 @@ const Button = ({onClick, text, type = "button", icon, className}: ButtonProps) 
     return (
         <button
             className={cn(classValues)}
-            type={type}
-            onClick={onClick}
+            type={type} onClick={onClick}
         >
             {icon}{text}
         </button>

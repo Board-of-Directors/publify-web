@@ -1,5 +1,5 @@
-import {IssueBlock, NodeStyles, TextStyle} from "@/app/types/IssueBlock";
-import {useEffect, useState} from "react";
+import {IssueBlock} from "@/app/types/IssueBlock";
+import {useState} from "react";
 import {useStore} from "@/app/store/useStore";
 import {useShallow} from "zustand/react/shallow";
 import {useQuery} from "react-query";
@@ -60,7 +60,7 @@ export const useEditorIssuePage = (issueId: number) => {
 
         })
 
-        const styles : NodeStyles = {
+        const styles : any = {
             heading : "none",
             paragraph : "none"
         }
@@ -101,7 +101,7 @@ export const useEditorIssuePage = (issueId: number) => {
     }
 
     return {
-        handleAddIssueBlock, issueCover,
+        handleAddIssueBlock, issueCover, issue,
         issueBlocks, availableArticles, getIssueQuery,
         getArticlesQuery, getArticleItemsQuery
     }

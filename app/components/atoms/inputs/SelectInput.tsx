@@ -79,10 +79,18 @@ const SelectInput = (props: SelectInputProps) => {
         props.className
     ]
 
+    const textStyles = {
+        'text-text-black' : props.value?.length > 0,
+        'text-text-gray' : props.value?.length === 0,
+    }
+
     return (
         <div className={cn("w-full flex flex-col gap-[10px]", props.className)}>
             <div className={cn(classValues)}>
-                <Text text={props.value}/>
+                <Text
+                    text={props.value?.length > 0 ? props.value : props.placeholder}
+                    className={cn(textStyles)}
+                />
                 <ChevronButton
                     isOpen={isOpen}
                     setOpen={setOpen}

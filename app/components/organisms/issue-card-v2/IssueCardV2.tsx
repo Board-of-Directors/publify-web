@@ -8,26 +8,47 @@ import {FiSettings, FiTrash2} from "react-icons/fi";
 import {usePathname, useRouter} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {Issue} from "@/app/types/issue";
+import {jwtDecode} from "jwt-decode";
+
+import DefaultImage from '@/public/default-image.png';
 
 type IssueCardV2Props = {
     issue: Issue,
-    onDelete : (issueId : number) => void,
+    onDelete?: (issueId: number) => void,
+    onClick?: () => void,
+    isInteractive?: boolean,
     className?: string
 }
 
-const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
+const IssueCardV2 = ({issue, className, onDelete, onClick, isInteractive = true}: IssueCardV2Props) => {
 
     const router: AppRouterInstance = useRouter()
-    const pathName : string = usePathname()
+    const pathName: string = usePathname()
 
-    const handleButtonClick = () => router.push(pathName.concat(`/issue/${issue.id}`))
+    const handleButtonClick = () => {
+        if (onClick) return;
+
+        const jwt = jwtDecode(sessionStorage.getItem('ACCESS_TOKEN')!!) as any;
+        if (jwt.role !== 'EDITOR') {
+            router.push(pathName.concat(`/issue/${issue.id}`))
+        } else {
+            router.push(pathName.concat(`/issue/editor/${issue.id}`));
+        }
+    }
+
+    const handleDeleteIssue = (event: PointerEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        onDelete?.(issue.id);
+    }
 
     const classValues: ClassValue[] = [
         "col-span-3 p-5", className
     ]
 
     return (
-        <CardWrapper className={cn(classValues)}>
+        <CardWrapper onClick={onClick} className={cn(classValues)}>
             <Text
                 text={issue.title}
                 className={"text-[18px] text-text-black pb-5 border-b-2 border-background"}
@@ -35,11 +56,9 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
             <Image
                 onClick={handleButtonClick}
                 className={"hover:cursor-pointer w-full h-[300px] object-fill"}
-                src={`data:image/jpeg;base64,${issue.cover}`}
-                width={100}
-                height={100}
-                alt={'/'}
-                quality={100}
+                src={issue.cover ? `data:image/jpeg;base64,${issue.cover}` : DefaultImage.src}
+                width={100} height={100}
+                alt={'/'} quality={100}
             />
             <div className={"flex flex-row items-center justify-between"}>
                 <Text
@@ -50,7 +69,7 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
                     text={issue.releaseDate}
                     className={"text-[18px] text-text-black"}
                 />
-                <div className={"flex flex-row gap-[15px] items-center"}>
+                {isInteractive ? <div className={"flex flex-row gap-[15px] items-center"}>
                     <FiSettings
                         size={"20px"}
                         className={"stroke-text-gray hover:cursor-pointer hover:stroke-info-blue-default"}
@@ -59,9 +78,9 @@ const IssueCardV2 = ({issue, className, onDelete}: IssueCardV2Props) => {
                     <FiTrash2
                         size={"20px"}
                         className={"text-text-gray hover:cursor-pointer hover:stroke-info-red"}
-                        onClick={() => onDelete(issue.id)}
+                        onClick={handleDeleteIssue}
                     />
-                </div>
+                </div> : null}
             </div>
         </CardWrapper>
     );
