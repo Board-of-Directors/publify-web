@@ -12,7 +12,10 @@ export type ArticleLayout = {
     templateType: string,
     picturePosition: string,
     columnCount: number,
-    fonts: FontSettings[]
+    fonts: FontSettings[],
+    lockedBy : {
+        email : string
+    }
 }
 
 export type ArticleBlock =  {

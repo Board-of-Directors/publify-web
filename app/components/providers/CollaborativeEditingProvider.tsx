@@ -1,4 +1,4 @@
-import {createContext} from "react";
+import {createContext, Dispatch, SetStateAction} from "react";
 import {Client} from "@stomp/stompjs";
 import {useCollaborativeEditing} from "@/app/utils/hooks/useCollaborativeEditing";
 
@@ -17,6 +17,7 @@ type CollaborativeEditingContext = {
     client : Client | undefined,
     userEmail : string | undefined,
     lockedLayouts : LockPayload[],
+    setLockedLayouts : Dispatch<SetStateAction<LockPayload[]>>,
     userMousePositions : UserMousePosition[]
 }
 
@@ -24,6 +25,7 @@ const defaultValue : CollaborativeEditingContext = {
     client : undefined,
     userEmail : undefined,
     lockedLayouts : [],
+    setLockedLayouts : () => {},
     userMousePositions : []
 };
 

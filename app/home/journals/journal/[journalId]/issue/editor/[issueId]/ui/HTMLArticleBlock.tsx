@@ -16,7 +16,7 @@ import Image from "@tiptap/extension-image";
 import {convertFontStylesToAttributes} from "@/app/utils/convertFontStylesToAttributes";
 import CardWrapper from "@/app/components/wrappers/card/card-wrapper/CardWrapper";
 import Text from "@/app/components/atoms/text/Text";
-import {CollaborativeEditingContext} from "@/app/components/providers/CollaborativeEditingProvider";
+import {CollaborativeEditingContext, LockPayload} from "@/app/components/providers/CollaborativeEditingProvider";
 import {cn} from "@/app/utils/cn";
 
 const EditableHeading = Heading.extend({
@@ -64,7 +64,7 @@ const extensions: AnyExtension[] = [
 
 const HTMLArticleBlock = ({articleBlock, issueId}: { articleBlock: ArticleBlock, issueId: number }) => {
 
-    const {userEmail, lockedLayouts, client} = useContext(CollaborativeEditingContext);
+    const {userEmail, lockedLayouts, setLockedLayouts, client} = useContext(CollaborativeEditingContext);
     const issueConfig = useStore(state => state.config)
     const [heading, paragraph] = articleBlock.layout.fonts;
     const [isLocked, toggleLocked] = useToggle();
@@ -116,6 +116,12 @@ const HTMLArticleBlock = ({articleBlock, issueId}: { articleBlock: ArticleBlock,
             .updateAttributes('paragraph', {class: convertFontStylesToAttributes(paragraph?.fontName)})
             .run()
     }, [layout.fonts]);
+
+    useEffect(() => {
+        if (layout.lockedBy.email !== null) {
+            setLockedLayouts(layouts => [...layouts, {email : layout.lockedBy.email, layoutId : layout.id}]);
+        }
+    }, []);
 
     if (getIssueQuery.isSuccess) return (
         <section className={'col-span-8 flex flex-col'}>

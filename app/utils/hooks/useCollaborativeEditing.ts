@@ -86,7 +86,7 @@ export const useCollaborativeEditing = (issueId : number) => {
             client?.publish({
                 headers: headers,
                 destination: `/user/cursor-change/${issueId}`,
-                body: JSON.stringify({x : ev.clientX, y : ev.clientY})
+                body: JSON.stringify({x : ev.clientX, y : window.scrollY + ev.clientY})
             })
         };
 
@@ -97,10 +97,6 @@ export const useCollaborativeEditing = (issueId : number) => {
         };
     }, [ client ]);
 
-    useEffect(() => {
-        console.log(userMousePositions)
-    }, [userMousePositions])
-
-    return {client, lockedLayouts, userEmail, userMousePositions};
+    return {client, lockedLayouts, userEmail, userMousePositions, setLockedLayouts};
 
 }

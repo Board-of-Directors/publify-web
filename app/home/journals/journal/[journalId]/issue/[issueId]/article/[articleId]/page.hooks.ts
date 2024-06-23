@@ -32,13 +32,8 @@ export const useEditArticlePage = (articleId: number) => {
     }
 
     const handleChangeEditorState = (value: string, itemId: number) => {
-        setBlocks((state) => {
-            return state.map((item) => {
-                if (item.id === itemId) {
-                    return {...item, content: value}
-                } else return item
-            })
-        })
+        const articleItemToEdit = blocks[itemId];
+        setBlocks(blocks.with(itemId, {...articleItemToEdit, content : value}));
     }
 
     const sensors = useSensors(
@@ -52,8 +47,8 @@ export const useEditArticlePage = (articleId: number) => {
         const {active, over} = event
         if (active.id !== over?.id) {
             setBlocks((blocks) => {
-                const oldIndex = blocks.findIndex((block) => block.id === active.id);
-                const newIndex = blocks.findIndex((block) => block.id === over?.id);
+                const oldIndex = blocks.findIndex((block) => block.itemId === active.id);
+                const newIndex = blocks.findIndex((block) => block.itemId === over?.id);
                 return arrayMove(blocks, oldIndex, newIndex);
             });
         }
@@ -70,16 +65,20 @@ export const useEditArticlePage = (articleId: number) => {
     const handleEditArticle = () => {
         enumerateBlocks()
         editArticle(articleId, blocks)
+            .then(async () => {
+                await getArticle(articleId)
+                await getArticleItems(articleId)
+            })
     }
 
     const addNewItem = (items: ArticleItem[], articleId: number, newItem: ArticleItem) => {
         return items.flatMap((item: ArticleItem) =>
-            item.id === articleId ? [newItem, item] : item)
+            item.itemId === articleId ? [newItem, item] : item)
     }
 
     const handleAddText = (articleId: number) => {
         const newItem: ArticleItem = {
-            contentType: "text",
+            itemId : blocks.length, contentType: "text",
             content: "<p>Enter some text..</p>",
             sequenceNumber: blocks.length
         }
@@ -88,16 +87,15 @@ export const useEditArticlePage = (articleId: number) => {
 
     const handleAddIllustration = (articleId: number) => {
         const newItem: ArticleItem = {
-            id: blocks.length, contentType: "image",
-            content: "",
-            sequenceNumber: blocks.length
+            itemId: blocks.length, contentType: "image",
+            content: "", sequenceNumber: blocks.length
         }
         setBlocks((items) => addNewItem(items, articleId, newItem))
     }
 
     const handleDeleteItem = (articleId: number) => {
         return setBlocks((state) =>
-            state.filter(item => item.id !== articleId)
+            state.filter(item => item.itemId !== articleId)
         )
     }
 
@@ -108,7 +106,7 @@ export const useEditArticlePage = (articleId: number) => {
     }
 
     const findArticleById = (itemId: number) => {
-        return blocks.findIndex((item) => item.id === itemId)
+        return blocks.findIndex((item) => item.itemId === itemId)
     }
 
     const setImage = (itemId: number, content: string) => {
@@ -141,12 +139,11 @@ export const useEditArticlePage = (articleId: number) => {
     useEffect(() => {
         setTextBlocksCount(getContentTypeCount(blocks, "text"))
         setIllustrationBlocksCount(getContentTypeCount(blocks, "image"))
-        console.log("BLOCKS", blocks)
     }, [blocks])
 
     // compute blocks order and set initial text & image blocks count
     useEffect(() => {
-        setBlocks(() => prepareBlocksOrder(articleItems))
+        setBlocks(() => prepareBlocksOrder(articleItems) as ArticleItem[])
         setTextBlocksCount(getContentTypeCount(blocks, "text"))
         setIllustrationBlocksCount(getContentTypeCount(blocks, "image"))
     }, [articleItems])

@@ -18,5 +18,6 @@ export type ArticleItem = {
     id ?: number,
     content : string,
     contentType : ContentType,
-    sequenceNumber : number
+    sequenceNumber : number,
+    itemId : number
 }

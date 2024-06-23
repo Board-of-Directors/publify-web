@@ -96,28 +96,29 @@ const ArticlePage = ({params}: {
                     onDragEnd={onDragEnd}
                 >
                     <SortableContext
-                        items={blocks.map(block => block.id)}
+                        items={blocks.map(block => block.itemId)}
                         strategy={verticalListSortingStrategy}
                     >
                         <GridBlock className={"col-span-12 grid grid-cols-12"}>
                             {
-                                blocks.map((item) => {
+                                blocks.map((item, key) => {
                                         return item.contentType.toLowerCase() === "text" ?
                                             <ArticleTextBlock
-                                                key={item.id}
-                                                onChange={(value, curSeqNumber) => handleChangeEditorState(value, curSeqNumber)}
-                                                onDelete={() => handleDeleteItem(item.id)}
-                                                onAddIllustration={() => handleAddIllustration(item.id)}
-                                                onAddText={() => handleAddText(item.id)}
+                                                key={item.itemId}
+                                                onChange={(value) => handleChangeEditorState(value, key)}
+                                                onDelete={() => handleDeleteItem(item.itemId)}
+                                                onAddIllustration={() => handleAddIllustration(item.itemId)}
+                                                onAddText={() => handleAddText(item.itemId)}
                                                 articleItem={item}
                                             /> : <ArticleIllustrationBlock
-                                                key={item.id}
-                                                onDelete={() => handleDeleteItem(item.id)}
-                                                onClear={() => handleClearInput(item.id)}
-                                                onAddText={() => handleAddText(item.id)}
-                                                onAddIllustration={() => handleAddIllustration(item.id)}
-                                                onChange={(e) => handleInputChange(e, item.id)}
-                                                articleItem={item}/>
+                                                key={item.itemId}
+                                                onDelete={() => handleDeleteItem(item.itemId)}
+                                                onClear={() => handleClearInput(item.itemId)}
+                                                onAddText={() => handleAddText(item.itemId)}
+                                                onAddIllustration={() => handleAddIllustration(item.itemId)}
+                                                onChange={(e) => handleInputChange(e, item.itemId)}
+                                                articleItem={item}
+                                            />
                                     }
                                 )
                             }
