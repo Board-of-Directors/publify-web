@@ -37,6 +37,7 @@
     "jwt-decode": "^4.0.0",
     "next": "14.0.3",
     "patronum": "^2.2.0",
+    "perfect-cursors": "^1.0.5",
     "primereact": "^10.6.6",
     "react": "^18",
     "react-dom": "^18",

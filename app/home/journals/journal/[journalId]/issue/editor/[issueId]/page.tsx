@@ -12,6 +12,7 @@ import {Article} from "@/app/types/article";
 import {createArticleBlockEvent} from "./models/page.model.create-article-layout";
 import CollaborativeEditingProvider from "@/app/components/providers/CollaborativeEditingProvider";
 import ArticleBlocks from "./ui/ArticleBlocks";
+import CollaborativeCursors from "./ui/CollaborativeCursors";
 
 const EditorIssuePage = ({params: {issueId}}: {
     params: {
@@ -32,6 +33,7 @@ const EditorIssuePage = ({params: {issueId}}: {
 
     return (
         <CollaborativeEditingProvider issueId={issueId}>
+            <CollaborativeCursors/>
             <ArticleHeaderRow name={context.issue.title}/>
             <div className={"w-full px-[215px] flex mb-[30px] flex-col gap-[30px]"}>
                 <GridBlock>

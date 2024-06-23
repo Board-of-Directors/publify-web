@@ -7,16 +7,24 @@ export type LockPayload = {
     layoutId : number
 }
 
+export type UserMousePosition = {
+    x : number,
+    y : number,
+    email : string
+}
+
 type CollaborativeEditingContext = {
     client : Client | undefined,
     userEmail : string | undefined,
-    lockedLayouts : LockPayload[]
+    lockedLayouts : LockPayload[],
+    userMousePositions : UserMousePosition[]
 }
 
 const defaultValue : CollaborativeEditingContext = {
     client : undefined,
     userEmail : undefined,
-    lockedLayouts : []
+    lockedLayouts : [],
+    userMousePositions : []
 };
 
 export const CollaborativeEditingContext = createContext<CollaborativeEditingContext>(defaultValue);
