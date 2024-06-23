@@ -121,9 +121,11 @@ const HTMLArticleBlock = ({articleBlock, issueId}: { articleBlock: ArticleBlock,
         <section className={'col-span-8 flex flex-col'}>
             {Boolean(lockedLayout) && !isLockedByMe ? <div className={'w-fit rounded-t-xl bg-black p-3 pb-8 -mb-5'}>
                 <Text text={lockedLayout?.email} className={'text-xs text-white'}/>
-            </div> : null}
+            </div> : <div className={'w-fit rounded-t-xl bg-background p-3 pb-8 -mb-5'}>
+                <Text text={'Hidden message'} className={'text-xs text-background'}/>
+            </div>}
             <CardWrapper className={cn({
-                'border-2 border-blue-400' : Boolean(lockedLayout) && isLockedByMe,
+                'border-2 border-blue-400': Boolean(lockedLayout) && isLockedByMe,
                 'border-2 border-black' : Boolean(lockedLayout) && !isLockedByMe,
             })}>
                 <div
