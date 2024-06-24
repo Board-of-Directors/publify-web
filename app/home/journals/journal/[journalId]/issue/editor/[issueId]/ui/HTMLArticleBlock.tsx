@@ -137,7 +137,7 @@ const HTMLArticleBlock = ({articleBlock, issueId}: { articleBlock: ArticleBlock,
                 <div
                     onClick={handleLockLayout}
                     style={{
-                        columnWidth: 600 / layout.columnCount,
+                        columnWidth: 500 / layout.columnCount,
                         padding: issueConfig.padding
                     }}
                 >

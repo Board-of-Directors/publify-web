@@ -66,28 +66,12 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
         {icon: <ClassicTemplateIcon type={"blue"} className={"icon w-full"}/>, id: 'CLASSIC'},
     ]
 
-    const pictureTemplates = [
-        {icon: <PictureFirstBigIcon type={"blue"} className={"icon w-full"}/>, id: 'FIRST_BIG'},
-        {icon: <PictureFullPageIcon type={"blue"} className={"icon w-full"}/>, id: 'FULL_PAGE'},
-        {icon: <PictureColumnIcon type={"blue"} className={"icon w-full"}/>, id: 'COLUMN'},
-    ]
-
-    const handleChangeTemplateType = (newType : string) => {
+    const handleChangeTemplate = (newPosition : string) => {
         changeArticleBlock({
             issueId : issueId,
             articleBlock : {
                 ...articleLayout,
-                templateType : newType
-            }
-        })
-    }
-
-    const handleChangePicturePositions = (newPosition : string) => {
-        changeArticleBlock({
-            issueId : issueId,
-            articleBlock : {
-                ...articleLayout,
-                picturePosition : newPosition
+                templateType : newPosition
             }
         })
     }
@@ -97,7 +81,8 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
             issueId : issueId,
             articleBlock : {
                 ...articleLayout,
-                columnCount : newColumns
+                columnCount : newColumns,
+                templateType : "NONE"
             }
         })
     }
@@ -109,6 +94,7 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
             issueId : issueId,
             articleBlock : {
                 ...articleLayout,
+                templateType : "NONE",
                 fonts : [{
                     ...articleLayout.fonts[indexToChange],
                     fontName : fontName,
@@ -139,21 +125,8 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
                 <div className={"flex flex-row items-center gap-3"}>
                     {blockTemplates.map((item) => (
                         <div
-                            onClick={() => handleChangeTemplateType(item.id)}
+                            onClick={() => handleChangeTemplate(item.id)}
                             className={cn({'bg-orange-500' : item.id === articleLayout.templateType})}
-                        >
-                            {item.icon}
-                        </div>
-                    ))}
-                </div>
-            </HeaderBlock>
-
-            <HeaderBlock header={"Picture positions"}>
-                <div className={"flex flex-row items-center gap-3"}>
-                    {pictureTemplates.map((item) => (
-                        <div
-                            onClick={() => handleChangePicturePositions(item.id)}
-                            className={cn({'bg-orange-500' : item.id === articleLayout.picturePosition})}
                         >
                             {item.icon}
                         </div>
