@@ -26,7 +26,7 @@ const ArticleTableRow = ({article, editable, onClick}: {
 
     const articleData: string[] = [
         article.name, `${article.textBlocksCount} blocks`,
-        `${article.textBlocksCount} blocks`
+        `${article.illustrationBlocksCount} blocks`
     ]
 
     return (

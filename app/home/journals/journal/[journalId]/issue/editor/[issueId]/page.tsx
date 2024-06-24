@@ -14,11 +14,16 @@ import CollaborativeEditingProvider from "@/app/components/providers/Collaborati
 import ArticleBlocks from "./ui/ArticleBlocks";
 import CollaborativeCursors from "./ui/CollaborativeCursors";
 import {
-    getTableOfContentEvent
-} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-table-of-content";
+    $tableOfContents,
+    getTableOfContentsFx
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-table-of-contents";
+import TableOfContent from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/ui/TableOfContent";
 import {
-    createTableOfContentEvent
-} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.create-table-of-content";
+    createTableOfContentsFx
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.create-table-of-contents";
+import {
+    deleteTableOfContentsFx
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.delete-table-of-content";
 
 const EditorIssuePage = ({params: {issueId}}: {
     params: {
@@ -28,7 +33,8 @@ const EditorIssuePage = ({params: {issueId}}: {
 
     const context = useEditorIssuePage(issueId);
     const [createArticleBlock, getIssueLayout] = useUnit([createArticleBlockEvent, getIssueLayoutEvent]);
-    const [getTableOfContent, createTableOfContent] = useUnit([getTableOfContentEvent, createTableOfContentEvent]);
+    const [tableOfContent, getTableOfContent, createTableOfContent] = useUnit([$tableOfContents, getTableOfContentsFx, createTableOfContentsFx]);
+    const deleteTableOfContents = useUnit(deleteTableOfContentsFx)
 
     const handleAddArticle = (article: Article) => {
         createArticleBlock({issueId: issueId, articleId: article.id});
@@ -36,6 +42,10 @@ const EditorIssuePage = ({params: {issueId}}: {
 
     const handleAddTableOfContent = () => {
         createTableOfContent(issueId);
+    }
+
+    const handleDeleteTableOfContent = () => {
+        deleteTableOfContents(issueId);
     }
 
     useEffect(() => {
@@ -55,10 +65,15 @@ const EditorIssuePage = ({params: {issueId}}: {
                         alt={"/"}
                     />
                     <ArticleCoverSider/>
+                    {tableOfContent ? <TableOfContent
+                        tableOfContent={tableOfContent}
+                        issue={context.issue}
+                    /> : null}
                     <ArticleBlocks issueId={issueId}/>
                     <EditorAddArticleBlock
                         onAddArticle={handleAddArticle}
                         onAddTableOfContent={handleAddTableOfContent}
+                        onDeleteTableOfContent={handleDeleteTableOfContent}
                         articles={context.availableArticles}
                     />
                 </GridBlock>

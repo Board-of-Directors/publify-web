@@ -6,6 +6,9 @@ import {
 import {
     getLinkedIssuesFx
 } from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-linked-issues";
+import {
+    getTableOfContentsFx
+} from "@/app/home/journals/journal/[journalId]/issue/editor/[issueId]/models/page.model.get-table-of-contents";
 
 export type CreateArticleBlockData = {
     issueId : number,
@@ -32,5 +35,5 @@ sample({
 sample({
     clock : createArticleBlockFx.doneData,
     fn : (issueId) => ({issueId : issueId}),
-    target : getLinkedIssuesFx
+    target : [getLinkedIssuesFx, getTableOfContentsFx]
 })
