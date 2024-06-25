@@ -23,12 +23,12 @@ import {
 
 type HTMLIssueBlockSiderProps = {
     articleLayout: ArticleLayout,
-    issueId : number
+    issueId: number
 }
 
 const textControls = {
-    font: [{name: "Sans"}, {name: "Serif"}, {name : "Mono"}, {name: "Default"}],
-    style: [{name: "Bold"}, {name: "Italic"}, {name : "None"}]
+    font: [{name: "Sans"}, {name: "Serif"}, {name: "Mono"}, {name: "Default"}],
+    style: [{name: "Bold"}, {name: "Italic"}, {name: "None"}]
 }
 
 const HeaderBlock = ({header, children}: {
@@ -51,13 +51,13 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
     const [heading, paragraph] = articleLayout.fonts;
 
     const headingSelect = {
-        itemType : {id: heading.id, name : heading.fontType},
-        itemName : {id: heading.id, name : heading.fontName}
+        itemType: {id: heading.id, name: heading.fontType},
+        itemName: {id: heading.id, name: heading.fontName}
     };
 
     const paragraphSelect = {
-        itemType : {id: paragraph.id, name : paragraph.fontType},
-        itemName : {id: paragraph.id, name : paragraph.fontName}
+        itemType: {id: paragraph.id, name: paragraph.fontType},
+        itemName: {id: paragraph.id, name: paragraph.fontName}
     };
 
     const blockTemplates = [
@@ -66,46 +66,57 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
         {icon: <ClassicTemplateIcon type={"blue"} className={"icon w-full"}/>, id: 'CLASSIC'},
     ]
 
-    const handleChangeTemplate = (newPosition : string) => {
+    const handleChangeTemplate = (newPosition: string) => {
         changeArticleBlock({
-            issueId : issueId,
-            articleBlock : {
+            issueId: issueId,
+            articleBlock: {
                 ...articleLayout,
-                templateType : newPosition
+                columnCount: newPosition === 'GOTHIC' ? 3 : newPosition === 'CLASSIC' ? 2 : 1,
+                templateType: newPosition,
+                fonts: [
+                    {
+                        ...articleLayout.fonts[0],
+                        fontName: newPosition === 'GOTHIC' ? "SERIF" : newPosition === 'CLASSIC' ? 'SANS' : 'DEFAULT'
+                    },
+                    {
+                        ...articleLayout.fonts[1],
+                        fontName : newPosition === 'GOTHIC' ? "SERIF" : newPosition === 'CLASSIC' ? 'SANS' : 'DEFAULT'
+                    }
+                ]
             }
         })
     }
 
-    const handleChangeColumns = (newColumns : number) => {
+    const handleChangeColumns = (newColumns: number) => {
         changeArticleBlock({
-            issueId : issueId,
-            articleBlock : {
+            issueId: issueId,
+            articleBlock: {
                 ...articleLayout,
-                columnCount : newColumns,
-                templateType : "NONE"
+                columnCount: newColumns,
+                templateType: "NONE"
             }
         })
     }
 
-    const handleChangeHeading = (mode : string, fontName ?: string, fontType ?: string) => {
+    const handleChangeHeading = (mode: string, fontName ?: string, fontType ?: string) => {
         const indexToChange = mode === 'heading' ? 0 : 1;
 
         changeArticleBlock({
-            issueId : issueId,
-            articleBlock : {
+            issueId: issueId,
+            articleBlock: {
                 ...articleLayout,
-                templateType : "NONE",
-                fonts : [{
+                templateType: "NONE",
+                fonts: [{
                     ...articleLayout.fonts[indexToChange],
-                    fontName : fontName,
-                    fontType : fontType
+                    fontName: fontName,
+                    fontType: fontType
                 }]
             }
         })
     }
 
     const handleDeleteArticleLayout = () => {
-        deleteArticleLayout({issueId : issueId, issueLayoutId : articleLayout.id})
+        deleteArticleLayout({issueId: issueId, issueLayoutId: articleLayout.id})
     }
 
     return (
@@ -126,7 +137,7 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
                     {blockTemplates.map((item) => (
                         <div
                             onClick={() => handleChangeTemplate(item.id)}
-                            className={cn({'bg-orange-500' : item.id === articleLayout.templateType})}
+                            className={cn({'bg-orange-500': item.id === articleLayout.templateType})}
                         >
                             {item.icon}
                         </div>
@@ -136,7 +147,7 @@ const HTMLIssueBlockSider = ({articleLayout, issueId}: HTMLIssueBlockSiderProps)
 
             <HeaderBlock header={"Columns"}>
                 <SelectButton
-                    selectedItem={{name : String(articleLayout.columnCount)}}
+                    selectedItem={{name: String(articleLayout.columnCount)}}
                     onSelect={(item) => handleChangeColumns(Number(item.name))}
                     items={context.selectItems}
                 />
